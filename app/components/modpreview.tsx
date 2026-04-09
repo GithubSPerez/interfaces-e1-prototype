@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 
 function ModThumbnail({src, reduced = false}) {
     const sizeClasses = {
-        normal: "w-[21em]",
+        normal: "w-full",
         reduced: "w-[10em]"
     }
     const sizeClass = sizeClasses[reduced ? "reduced" : "normal"]
@@ -70,9 +70,11 @@ export default function ModPreview({sideview = false}) {
     const [title, setTitle] = useState("The Amazing Digital Mod")
     const router = useRouter()
 
-    const mainWidth = sideview ? "w-full" : ""
-    return <button className={`cursor-pointer bg-transparent hover:bg-cyan-950 rounded-xl m-1 ${mainWidth} transition-colors`}
-    onClick={() => {router.push("/mod/1")}}>
-        {sideview ? <ModSideviewPreviewContents/> : <ModNormalPreviewContents/>}
-    </button>
+    const mainWidth = sideview ? "w-full" : "w-[25%]"
+    return <div className={`p-1 shrink`}>
+        <button className={`cursor-pointer bg-transparent hover:bg-cyan-950 rounded-xl w-full transition-colors`}
+        onClick={() => {router.push("/mod/1")}}>
+            {sideview ? <ModSideviewPreviewContents/> : <ModNormalPreviewContents/>}
+        </button>
+    </div>
 }

@@ -1,12 +1,29 @@
 import { HandThumbDownIcon, HandThumbUpIcon } from "@heroicons/react/16/solid";
 
+function countDisplay(ammount: number) {
+    return `${ammount / 1000}K`
+}
 export default function LikeBar() {
-    return <div className="flex flex-row w-full text-xl">
-        <button className="flex flex-row flex-1 w-full outline-2 outline-neutral-800 rounded-l-xl p-2">
-            <HandThumbUpIcon className="size-8"/> <p className="flex flex-col justify-center pl-2">231K</p>
-        </button>
-        <button className="flex flex-row flex-1 w-full outline-2 outline-neutral-800 rounded-r-xl p-2">
-            <HandThumbDownIcon className="size-8"/> <p className="flex flex-col justify-center pl-2">19K</p>
-        </button>
+    const likes = 231000
+    const dislikes = 19000
+
+    const likeDisplay = countDisplay(likes)
+    const dislikeDisplay = countDisplay(dislikes)
+
+    const sizePercent = (likes / dislikes) * 100
+
+    return <div className="flex flex-col w-full">
+        <div className="flex flex-row w-full text-xl">
+            <button className="flex flex-row flex-1 w-full outline-2 outline-neutral-800 rounded-l-xl p-2">
+                <HandThumbUpIcon className="size-8"/> <p className="flex flex-col justify-center pl-2">{likeDisplay}</p>
+            </button>
+            <button className="flex flex-row flex-1 w-full outline-2 outline-neutral-800 rounded-r-xl p-2">
+                <HandThumbDownIcon className="size-8"/> <p className="flex flex-col justify-center pl-2">{dislikeDisplay}</p>
+            </button>
+        </div>
+        <div className="mt-2 rounded-4xl flex flex-row w-full h-1 outline-2 overflow-hidden outline-neutral-800">
+            <div className="bg-green-600 h-full" style={{width: `${sizePercent}%`}}></div>
+            <div className="bg-red-500 h-full w-full"></div>
+        </div>
     </div>
 }

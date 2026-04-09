@@ -1,6 +1,7 @@
 import LikeBar from "@/app/components/likebar";
 import ModSideSuggestions from "@/app/components/modsidesuggestions";
-import { ArrowDownTrayIcon, ClockIcon, HeartIcon, InformationCircleIcon, PlusCircleIcon } from "@heroicons/react/16/solid";
+import SquareImage from "@/app/components/squareimage";
+import { ArrowDownTrayIcon, ClockIcon, DocumentTextIcon, HeartIcon, InformationCircleIcon, PlusCircleIcon } from "@heroicons/react/16/solid";
 import { ArrowDownCircleIcon } from "@heroicons/react/16/solid";
 
 export default function ModPage() {
@@ -28,14 +29,16 @@ export default function ModPage() {
                         <LikeBar/>
                     </div>
                     <p className="flex flex-row text-xl">
-                        <InformationCircleIcon className="size-7 pr-1"/>File Size - 24.5MB
-                    </p>
-                    <p className="flex flex-row text-xl">
                         <ArrowDownCircleIcon className="size-7 pr-1"/>3.3M Downloads
                     </p>
                     <p className="flex flex-row text-xl">
                         <ClockIcon className="size-7 pr-1"/>Updated 3 weeks ago
                     </p>
+                    <div className="h-full"></div>
+                    <div className="pb-1 flex flex-row">
+                        <SquareImage src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png" size="big"/>
+                        <h3 className="ml-2 text-xl font-bold">Mod Owner</h3>
+                    </div>
                 </div>
             </div>
             <h1 className="text-4xl font-bold pt-3">Untitled Mod for Geometry Dash</h1>
