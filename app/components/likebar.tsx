@@ -1,11 +1,14 @@
 import { HandThumbDownIcon, HandThumbUpIcon } from "@heroicons/react/16/solid";
+import { Mod } from "../models";
 
 function countDisplay(ammount: number) {
-    return `${ammount / 1000}K`
+    if (ammount >= 1100)
+        return `${ammount / 1000}K`
+    return ammount
 }
-export default function LikeBar() {
-    const likes = 231000
-    const dislikes = 19000
+export default function LikeBar({mod}: {mod: Mod}) {
+    const likes = mod.likes
+    const dislikes = mod.dislikes
 
     const likeDisplay = countDisplay(likes)
     const dislikeDisplay = countDisplay(dislikes)

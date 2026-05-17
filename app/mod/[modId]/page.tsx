@@ -1,15 +1,30 @@
+'use client'
 import LikeBar from "@/app/components/likebar";
 import ModSideSuggestions from "@/app/components/modsidesuggestions";
+import { Mod, requestMod } from "@/app/models";
 import SquareImage from "@/app/components/squareimage";
 import { ArrowDownTrayIcon, ClockIcon, DocumentTextIcon, HeartIcon, InformationCircleIcon, PlusCircleIcon } from "@heroicons/react/16/solid";
 import { ArrowDownCircleIcon } from "@heroicons/react/16/solid";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import Markdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 
 export default function ModPage() {
+    const params = useParams<{modId: string}>()
+    const [mod, setMod] = useState<Mod | undefined>(undefined)
+
+    useEffect(() => {
+        requestMod(Number(params.modId)).then(mod => setMod(mod))
+    })
+
     return <div className="flex flex-row">
-        <div className="flex flex-5 flex-col p-5">
+        {
+            mod ? (
+                <div className="flex flex-5 flex-col p-5">
             <div className="flex flex-row">
                 <div className="overflow-hidden rounded-xl flex-5">
-                    <img src="https://elitescreens.com/wp-content/uploads/16by10.jpg" className="object-fill"></img>
+                    <img src={mod.preview} className="object-fill"></img>
                 </div>
                 <div className="flex flex-col w-full bg-neutral-900 ml-6 rounded-xl p-4 min-h-0 flex-2">
                     <div className="flex flex-row">
@@ -26,10 +41,10 @@ export default function ModPage() {
                         </button>
                     </div>
                     <div className="pt-3 pb-3">
-                        <LikeBar/>
+                        <LikeBar mod={mod}/>
                     </div>
                     <p className="flex flex-row text-xl">
-                        <ArrowDownCircleIcon className="size-7 pr-1"/>3.3M Downloads
+                        <ArrowDownCircleIcon className="size-7 pr-1"/>{mod.downloads} Downloads
                     </p>
                     <p className="flex flex-row text-xl">
                         <ClockIcon className="size-7 pr-1"/>Updated 3 weeks ago
@@ -41,13 +56,14 @@ export default function ModPage() {
                     </div>
                 </div>
             </div>
-            <h1 className="text-4xl font-bold pt-3">Untitled Mod for Geometry Dash</h1>
-            <p className="text-xl text-neutral-300">
-                Esta es la descripción del mod que acabas de clickear.<br/>
-                <br/>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
+            <h1 className="text-4xl font-bold pt-3">{mod.title}</h1>
+            <div className="text-xl text-neutral-300">
+                <Markdown rehypePlugins={[rehypeRaw]}>{mod.description}</Markdown>
+            </div>
         </div>
+            ) : <></>
+        }
+        
         <div className="flex-2">
             <ModSideSuggestions/>
         </div>
