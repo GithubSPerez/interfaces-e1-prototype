@@ -13,7 +13,7 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="grid-cols-4">
+    <div className="grid grid-cols-4">
       {mods.map(mod => 
         <ModPreview mod = {mod} key={mod.title}></ModPreview>
       )}

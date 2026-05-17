@@ -8,7 +8,7 @@ import { Mod } from "../models";
 
 function ModThumbnail({src, reduced = false}: {src: string, reduced?: boolean}) {
     const sizeClasses = {
-        normal: "w-[21em]",
+        normal: "w-full",
         reduced: "w-[10em]"
     }
     const sizeClass = sizeClasses[reduced ? "reduced" : "normal"]
@@ -70,9 +70,11 @@ function ModSideviewPreviewContents({mod}: {mod: Mod}) {
 export default function ModPreview({mod, sideview = false}: {mod: Mod, sideview?: boolean}) {
     const router = useRouter()
 
-    const mainWidth = sideview ? "w-full" : ""
-    return <button className={`cursor-pointer bg-transparent hover:bg-cyan-950 rounded-xl m-1 ${mainWidth} transition-colors`}
-    onClick={() => {router.push(`/mod/${mod.id}`)}}>
-        {sideview ? <ModSideviewPreviewContents mod={mod}/> : <ModNormalPreviewContents mod={mod}/>}
-    </button>
+    const mainWidth = sideview ? "w-full" : "w-[25%]"
+    return <div className={`p-1 shrink`}>
+        <button className={`cursor-pointer bg-transparent hover:bg-cyan-950 rounded-xl w-full transition-colors`}
+        onClick={() => {router.push(`/mod/${mod.id}`)}}>
+            {sideview ? <ModSideviewPreviewContents mod={mod}/> : <ModNormalPreviewContents mod={mod}/>}
+        </button>
+    </div>
 }
