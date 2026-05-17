@@ -4,8 +4,9 @@ import { ArrowDownTrayIcon } from "@heroicons/react/16/solid";
 import SquareImage from "./squareimage";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Mod } from "../models";
 
-function ModThumbnail({src, reduced = false}) {
+function ModThumbnail({src, reduced = false}: {src: string, reduced?: boolean}) {
     const sizeClasses = {
         normal: "w-[21em]",
         reduced: "w-[10em]"
@@ -16,63 +17,62 @@ function ModThumbnail({src, reduced = false}) {
     </div>
 }
 
-function ModInfo({title = "Untitled Mod", reduced = false}) {
+function ModInfo({mod, reduced = false}: {mod: Mod, reduced?: boolean}) {
     const titleSize = reduced ? "" : "text-xl"
     const iconSize = reduced ? "size-4" : "size-5"
     const infoSize = reduced ? "text-sm" : ""
     const infoClass = `${infoSize} text-neutral-300`
     return <div className="flex flex-col justify-start text-left">
         <p className={titleSize}>
-            <b>{title}</b>
+            <b>{mod.title}</b>
         </p>
         <p className={infoClass}>
-            Mod Owner
+            {mod.user.name}
         </p>
         <div className={`flex flex-row align-middle ${infoClass}`}>
             <ArrowDownTrayIcon className={iconSize}/>
-            3M 
+            {mod.downloads}
         </div>
     </div>
 }
 
-function ModNormalPreviewContents({title = "Untitled Mod"}) {
+function ModNormalPreviewContents({mod}: {mod: Mod}) {
     return <>
     <div className="p-3 pb-1.5">
-        <ModThumbnail src="https://elitescreens.com/wp-content/uploads/16by10.jpg"/>
+        <ModThumbnail src={mod.preview}/>
     </div>
     
     <div className="p-3 pt-1.5">
         <div className="flex flex-row w-full">
             <div className="pr-3">
-                <SquareImage size="plus" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"></SquareImage>
+                <SquareImage size="plus" src={mod.user.pfp}></SquareImage>
             </div>
-            <ModInfo title={title}/>
+            <ModInfo mod={mod}/>
         </div>
     </div>
     </>
 }
 
-function ModSideviewPreviewContents({title = "Untitled Mod"}) {
+function ModSideviewPreviewContents({mod}: {mod: Mod}) {
     return <div className="flex flex-row">
     <div className="p-3 pr-1.5">
-        <ModThumbnail reduced src="https://elitescreens.com/wp-content/uploads/16by10.jpg"/>
+        <ModThumbnail reduced src={mod.preview}/>
     </div>
     
     <div className="p-3 pl-1.5">
         <div className="flex flex-row w-full">
-            <ModInfo title={title} reduced/>
+            <ModInfo mod={mod} reduced/>
         </div>
     </div>
     </div>
 }
 
-export default function ModPreview({sideview = false}) {
-    const [title, setTitle] = useState("The Amazing Digital Mod")
+export default function ModPreview({mod, sideview = false}: {mod: Mod, sideview?: boolean}) {
     const router = useRouter()
 
     const mainWidth = sideview ? "w-full" : ""
     return <button className={`cursor-pointer bg-transparent hover:bg-cyan-950 rounded-xl m-1 ${mainWidth} transition-colors`}
-    onClick={() => {router.push("/mod/1")}}>
-        {sideview ? <ModSideviewPreviewContents/> : <ModNormalPreviewContents/>}
+    onClick={() => {router.push(`/mod/${mod.id}`)}}>
+        {sideview ? <ModSideviewPreviewContents mod={mod}/> : <ModNormalPreviewContents mod={mod}/>}
     </button>
 }
