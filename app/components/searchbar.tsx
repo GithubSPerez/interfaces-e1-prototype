@@ -5,7 +5,7 @@ export default function Searchbar({onChange = () => {}}) {
         type="text"
         onChange={onChange}
         placeholder="Search"
-        className="outline-2 outline-neutral-800 pl-2 pt-1 pb-1 rounded-md w-[32em]"
+        className="outline-0 bg-bglitest pl-2 pt-1 pb-1 rounded-border-inner w-[32em]"
     >
     </input>
 }

@@ -3,12 +3,14 @@ import LikeBar from "@/app/components/likebar";
 import ModSideSuggestions from "@/app/components/modsidesuggestions";
 import { Mod, requestMod } from "@/app/models";
 import SquareImage from "@/app/components/squareimage";
-import { ArrowDownTrayIcon, ClockIcon, DocumentTextIcon, HeartIcon, InformationCircleIcon, PlusCircleIcon } from "@heroicons/react/16/solid";
-import { ArrowDownCircleIcon } from "@heroicons/react/16/solid";
+//import { ArrowDownTrayIcon, ClockIcon, DocumentTextIcon, HeartIcon, InformationCircleIcon, PlusCircleIcon } from "@heroicons/react/16/solid";
+//import { ArrowDownCircleIcon } from "@heroicons/react/16/solid";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
+import { ModThumbnail } from "@/app/components/modpreview";
+import { ArrowDownCircleIcon, ArrowDownTrayIcon, ClockIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 
 export default function ModPage() {
     const params = useParams<{modId: string}>()
@@ -23,20 +25,18 @@ export default function ModPage() {
             mod ? (
                 <div className="flex flex-5 flex-col p-5">
             <div className="flex flex-row">
-                <div className="overflow-hidden rounded-xl flex-5">
-                    <img src={mod.preview} className="object-fill"></img>
-                </div>
-                <div className="flex flex-col w-full bg-neutral-900 ml-6 rounded-xl p-4 min-h-0 flex-2">
+                <ModThumbnail src={mod.preview} containerClass="flex-5"/>
+                <div className="flex flex-col w-full bg-bglite ml-6 rounded-xl p-4 min-h-0 flex-2">
                     <div className="flex flex-row">
-                        <button className="cursor-pointer bg-green-700 hover:bg-green-800 transition-colors text-2xl font-bold flex flex-row justify-center rounded-xl p-3 w-full">
-                            <ArrowDownTrayIcon className="size-8"/>
+                        <button className="cursor-pointer bg-download hover:bg-download-hover transition-colors text-2xl text-font-dark font-bold flex flex-row justify-center rounded-border-inner p-3 w-full">
+                            <ArrowDownTrayIcon className="size-8 stroke-icons"/>
                             <p className="pl-1">
                             Download
                             </p>
                         </button>
-                        <button className="cursor-pointer flex flex-row justify-center bg-blue-400 hover:bg-blue-500 transition-colors aspect-square ml-3 rounded-2xl">
+                        <button className="cursor-pointer flex flex-row justify-center bg-cart hover:bg-cart-hover text-font-dark transition-colors aspect-square ml-3 rounded-border-inner">
                             <div className="flex flex-col justify-center h-full">
-                            <PlusCircleIcon className="size-8"/>
+                            <PlusCircleIcon className="size-8 stroke-icons"/>
                             </div>
                         </button>
                     </div>
@@ -51,8 +51,8 @@ export default function ModPage() {
                     </p>
                     <div className="h-full"></div>
                     <div className="pb-1 flex flex-row">
-                        <SquareImage src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png" size="big"/>
-                        <h3 className="ml-2 text-xl font-bold">Mod Owner</h3>
+                        <SquareImage src={mod.user.pfp} size="big"/>
+                        <h3 className="ml-2 text-xl font-bold">{mod.user.name}</h3>
                     </div>
                 </div>
             </div>

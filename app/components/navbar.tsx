@@ -9,7 +9,7 @@ function NavbarItem({children}: {children: React.ReactElement}) {
 
 
 export default function Navbar() {
-    return <div className="flex flex-row bg-neutral-900 justify-items-center fixed w-full">
+    return <div className="flex flex-row bg-bglite justify-items-center fixed w-full h-15">
         <div className="flex flex-row flex-1">
             <NavbarItem>
                 <Logo></Logo>

@@ -6,14 +6,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Mod } from "../models";
 
-function ModThumbnail({src, reduced = false}: {src: string, reduced?: boolean}) {
+export function ModThumbnail({src, reduced = false, containerClass = ""}: {src: string, reduced?: boolean, containerClass?: string}) {
     const sizeClasses = {
-        normal: "w-full",
-        reduced: "w-[10em]"
+        normal: "w-full rounded-border-outer",
+        reduced: "w-[10em] rounded-border-inner"
     }
     const sizeClass = sizeClasses[reduced ? "reduced" : "normal"]
-    return <div className={`overflow-hidden rounded-xl ${sizeClass}`}>
-        <img src={src} className="object-fill"></img>
+    return <div className={`overflow-hidden ${sizeClass} ${containerClass} bg-bglite aspect-video`}>
+        <img src={src} className="object-scale-up max-h-full m-auto"></img>
     </div>
 }
 
@@ -72,7 +72,7 @@ export default function ModPreview({mod, sideview = false}: {mod: Mod, sideview?
 
     const mainWidth = sideview ? "w-full" : "w-[25%]"
     return <div className={`p-1 shrink`}>
-        <button className={`cursor-pointer bg-transparent hover:bg-cyan-950 rounded-xl w-full transition-colors`}
+        <button className={`cursor-pointer bg-transparent hover:bg-container rounded-xl w-full transition-colors`}
         onClick={() => {router.push(`/mod/${mod.id}`)}}>
             {sideview ? <ModSideviewPreviewContents mod={mod}/> : <ModNormalPreviewContents mod={mod}/>}
         </button>
