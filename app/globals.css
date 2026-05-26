@@ -9,6 +9,7 @@
   src: url(https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPb94C-s0.woff2) format('woff2');
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
+
 /* latin */
 @font-face {
   font-family: 'Space Grotesk';
@@ -38,7 +39,14 @@
   --color-download-hover: #FFE2AF;
   --color-cart: #A6BFF6;
   --color-cart-hover: #B4D7FF;
-
+  --color-collect: #A6BFF6;
+  --color-collect-hover: #B4D7FF;
+  --color-danger: #EE6661;
+  --color-danger-hover: #FF9491;
+  --color-neutral: #D9D9D9;
+  --color-neutral-hover: #7C739D;
+  --color-bglite-hover: #393965;
+  --color-bglitest-hover: #4F4B73;
   --radius-border-outer: 15px;
   --radius-border-inner: 6px;
 }
