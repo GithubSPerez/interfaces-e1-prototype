@@ -1,6 +1,7 @@
 import SquareImage from "./squareimage";
+import { Game, iconPlaceholder } from "../models";
 
-export default function GameIcon() {
-    return <SquareImage src="https://static.wikia.nocookie.net/logopedia/images/4/41/Geometry_Dash_Icon.svg/revision/latest?cb=20220220121501"
+export default function GameIcon({game}: {game: Game | undefined}) {
+    return <SquareImage src={game?.icon || iconPlaceholder}
     size="normal"></SquareImage>
 }
