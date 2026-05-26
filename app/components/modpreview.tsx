@@ -2,19 +2,12 @@
 
 import { ArrowDownTrayIcon } from "@heroicons/react/16/solid";
 import SquareImage from "./squareimage";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Mod } from "../models";
+import { Preview } from "./preview";
 
 export function ModThumbnail({src, reduced = false, containerClass = ""}: {src: string, reduced?: boolean, containerClass?: string}) {
-    const sizeClasses = {
-        normal: "w-full rounded-border-outer",
-        reduced: "w-[10em] rounded-border-inner"
-    }
-    const sizeClass = sizeClasses[reduced ? "reduced" : "normal"]
-    return <div className={`overflow-hidden ${sizeClass} ${containerClass} bg-bglite aspect-video`}>
-        <img src={src} className="object-scale-up max-h-full m-auto"></img>
-    </div>
+    return Preview({src, reduced, containerClass})
 }
 
 function ModInfo({mod, reduced = false}: {mod: Mod, reduced?: boolean}) {

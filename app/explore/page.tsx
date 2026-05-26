@@ -4,12 +4,13 @@ import Page from "../components/page";
 import ModPreview from "../components/modpreview";
 import { useEffect, useState } from "react";
 import { FeedFilter, Mod, requestMods } from "../models";
+import { getGame } from "../storage";
 
 export default function Home() {
   const [mods, setMods] = useState<Mod[]>([])
 
   useEffect(() => {
-    requestMods(1, FeedFilter.Featured).then((result) => setMods(result))
+    requestMods(getGame(), 1, FeedFilter.Featured).then((result) => setMods(result))
   }, [])
 
   return (
