@@ -4,7 +4,9 @@ import { APP_TEXTS } from "../lib/constants";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import TetrisBackground from "../app/components/tetris-background";
 import FunctionalityOverview from "../app/components/functionality-overview";
+import BigSearchBar from "../app/components/big-search-bar";
 import ModCarousel from "../app/components/mod-carousel";
+import Text from "../app/components/text";
 
 export default function Landing() {
   const { landing } = APP_TEXTS;
@@ -12,40 +14,15 @@ export default function Landing() {
   return (
     <div className="relative flex flex-col items-center justify-center pt-32 pb-16 overflow-hidden min-h-screen">
       <TetrisBackground />
-      <div className="relative z-10 max-w-4xl w-full text-center px-6">
-        <h1 className="text-5xl md:text-7xl font-bold text-font mb-6 tracking-tight">
-          {landing.heroTitle}
-        </h1>
-        <p className="text-xl text-font/70 mb-12 max-w-2xl mx-auto">
-          {landing.heroSubtitle}
-        </p>
-
-        {/* Large Hero Search Component */}
-        <div className="relative max-w-3xl mx-auto group">
-          <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
-            <MagnifyingGlassIcon className="h-7 w-7 text-font/70 group-focus-within:text-font transition-colors" />
-          </div>
-          <input
-            type="text"
-            className="w-full bg-bglitest text-font text-lg rounded-border-outer py-5 pl-16 pr-32 outline-none hover:bg-bglitest-hover focus:bg-bglitest-hover transition-colors placeholder:text-font/70"
-            placeholder={landing.searchPlaceholder}
-          />
-          <div className="absolute inset-y-0 right-2 flex items-center">
-            <button className="bg-download text-font-dark px-8 py-3 rounded-border-inner font-bold hover:bg-download-hover transition-colors">
-              {landing.searchButton}
-            </button>
-          </div>
-        </div>
-      </div>
+      <BigSearchBar />
 
       <FunctionalityOverview />
 
       <div className="relative z-10 mt-32 w-full max-w-[1400px] mx-auto">
-        <h2 className="text-2xl font-bold text-font text-center mb-12">
+        <Text variant="h2" className="text-center mb-12">
           {landing.featuresTitle}
-        </h2>
+        </Text>
 
-        {/* Mods Carousel */}
         <ModCarousel />
       </div>
     </div>

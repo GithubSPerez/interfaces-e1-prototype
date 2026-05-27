@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import ModPreview from "./modpreview";
 import { FeedFilter, Mod, requestMods } from "../models";
+import { getGame } from "../storage";
 import { APP_SETTINGS, APP_TEXTS } from "../../lib/constants";
 
 export default function ModCarousel() {
@@ -11,7 +12,7 @@ export default function ModCarousel() {
   const { loadingMods } = APP_TEXTS.landing;
 
   useEffect(() => {
-    requestMods(1, FeedFilter.Featured).then((result) => {
+    requestMods(getGame(), 1, FeedFilter.Featured).then((result) => {
       setMods(result);
     });
   }, []);
