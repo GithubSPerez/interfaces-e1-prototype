@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { Mod } from "../models";
 import { Preview } from "./preview";
 
-export function ModThumbnail({src, reduced = false, containerClass = ""}: {src: string, reduced?: boolean, containerClass?: string}) {
+export function ModThumbnail({src, reduced = false, containerClass = ""}: {src: string | undefined, reduced?: boolean, containerClass?: string}) {
     return Preview({src, reduced, containerClass})
 }
 
@@ -29,44 +29,45 @@ function ModInfo({mod, reduced = false}: {mod: Mod, reduced?: boolean}) {
     </div>
 }
 
-function ModNormalPreviewContents({mod}: {mod: Mod}) {
-    return <>
-    <div className="p-3 pb-1.5">
-        <ModThumbnail src={mod.preview}/>
+function ModNormalPreviewContents({mod}: {mod: Mod | undefined}) {
+    return <div className="p-4">
+    <div className="pb-4">
+        <Preview src={mod?.preview} inner/>
     </div>
     
-    <div className="p-3 pt-1.5">
+    <div>
         <div className="flex flex-row w-full">
             <div className="pr-3">
-                <SquareImage size="plus" src={mod.user.pfp}></SquareImage>
+                <SquareImage size="plus" src={mod?.user.pfp}></SquareImage>
             </div>
-            <ModInfo mod={mod}/>
+            {mod && <ModInfo mod={mod}/>}
         </div>
     </div>
-    </>
+    </div>
 }
 
-function ModSideviewPreviewContents({mod}: {mod: Mod}) {
+function ModSideviewPreviewContents({mod}: {mod: Mod | undefined}) {
     return <div className="flex flex-row">
-    <div className="p-3 pr-1.5">
-        <ModThumbnail reduced src={mod.preview}/>
-    </div>
-    
-    <div className="p-3 pl-1.5">
-        <div className="flex flex-row w-full">
-            <ModInfo mod={mod} reduced/>
+        <div className="p-3 pr-1.5">
+            <Preview reduced src={mod?.preview} inner/>
         </div>
-    </div>
+        
+        <div className="p-3 pl-1.5">
+            <div className="flex flex-row w-full">
+                {mod && <ModInfo mod={mod} reduced/>}
+            </div>
+        </div>
     </div>
 }
 
-export default function ModPreview({mod, sideview = false}: {mod: Mod, sideview?: boolean}) {
+export default function ModPreview({mod, sideview = false}: {mod: Mod | undefined, sideview?: boolean}) {
     const router = useRouter()
 
     const mainWidth = sideview ? "w-full" : "w-[25%]"
     return <div className={`p-1 shrink`}>
         <button className={`cursor-pointer bg-transparent hover:bg-container rounded-xl w-full transition-colors`}
-        onClick={() => {router.push(`/mod/${mod.id}`)}}>
+        disabled={!mod}
+        onClick={() => {router.push(`/mod/${mod?.id}`)}}>
             {sideview ? <ModSideviewPreviewContents mod={mod}/> : <ModNormalPreviewContents mod={mod}/>}
         </button>
     </div>
