@@ -71,6 +71,7 @@ export default function GamePreview({game, sideview = false}: {game: Game, sidev
         onClick={() => {
             setGame(game);
             router.push('/mods');
+            window.location.reload()
         }}>
             {sideview ? <GameSideviewPreviewContents game={game}/> : <GameNormalPreviewContents game={game}/>}
         </button>

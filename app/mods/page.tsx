@@ -10,6 +10,7 @@ export default function Mods() {
   const [mods, setMods] = useState<(Mod | undefined)[]>([])
   const [page, setPage] = useState<number>(1)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
+  const [noMoreMods, setNoMoreMods] = useState(false)
 
   function advancePage() {
     setPage(page + 1)
@@ -25,13 +26,16 @@ export default function Mods() {
     setIsLoadingMore(true)
     requestMods(getGame(), page, FeedFilter.Featured, search).then((result) => {
       appendMods(result)
+      if (result.length == 0) {
+        setNoMoreMods(true)
+      }
       advancePage()
       setIsLoadingMore(false)
     })
   }
 
   const handleScroll = (isLoading: boolean) => {
-    if (isLoading) return
+    if (isLoading || noMoreMods) return
 
     const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - window.outerHeight
 
@@ -60,7 +64,7 @@ export default function Mods() {
 
   return (
     <div className="grid grid-cols-3 gap-y-8 p-3">
-      {mods.concat([undefined, undefined, undefined]).map((mod, index) => 
+      {mods.concat(noMoreMods ? [] : [undefined, undefined, undefined]).map((mod, index) => 
         <ModPreview mod = {mod} key={`${index}-${mod?.title}`}></ModPreview>
       )}
     </div>

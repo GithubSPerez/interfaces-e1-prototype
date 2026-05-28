@@ -3,8 +3,11 @@
 import { Game, iconPlaceholder, previewPlaceholder } from "./models";
 
 export function getGame() {
+    let game: Game = {id: 7692, name: "PT", icon: iconPlaceholder, preview: previewPlaceholder, modCount: 0}
+    if (typeof localStorage == "undefined") return game
+
     const gameString = localStorage.getItem("game")
-    let game: Game = {id: 7692, name: "PT", icon: iconPlaceholder, preview: previewPlaceholder, modCount: 0};
+    
     if (gameString) game = JSON.parse(gameString)
 
     return game

@@ -86,16 +86,15 @@ export default function ModPage() {
     };
 
     return <div className="flex flex-row">
-        {
-            mod ? (
-                <div className="flex flex-5 flex-col p-5">
+            <div className="flex flex-5 flex-col p-5">
             <div className="flex flex-row">
-                <ModThumbnail src={mod.preview} containerClass="flex-5"/>
+                <ModThumbnail src={mod?.preview} containerClass="flex-5"/>
                 <div className="flex flex-col w-full bg-bglite ml-6 rounded-xl p-4 min-h-0 flex-2">
                     <div className="flex flex-row">
                         <ActionButton
                             onClick={handleDownload}
                             loading={isDownloading}
+                            disabled={!mod}
                             loadingChildren={
                                 <span className="flex items-center gap-2">
                                     Downloading...
@@ -117,36 +116,41 @@ export default function ModPage() {
                                 <PlusCircleIcon className="size-8 stroke-icons "/>
                             </div>
                         }
-                        disabled={alreadySavedMod}>
+                        disabled={alreadySavedMod || !mod}>
                             <div className="flex flex-col justify-center h-full">
                                 <PlusCircleIcon className="size-8 stroke-icons "/>
                             </div>
                         </ActionButton>
                         
                     </div>
-                    <div className="pt-3 pb-3">
-                        <LikeBar mod={mod}/>
-                    </div>
-                    <p className="flex flex-row text-xl">
-                        <ArrowDownCircleIcon className="size-7 pr-1"/>{mod.downloads} Downloads
-                    </p>
-                    <p className="flex flex-row text-xl">
-                        <ClockIcon className="size-7 pr-1"/>Updated 3 weeks ago
-                    </p>
-                    <div className="h-full"></div>
-                    <div className="pb-1 flex flex-row">
-                        <SquareImage src={mod.user.pfp} size="big"/>
-                        <h3 className="ml-2 text-xl font-bold">{mod.user.name}</h3>
-                    </div>
+                    
+                    {
+                        mod ? [
+                            <div className="pt-3 pb-3" key="likebar">
+                                <LikeBar mod={mod}/>
+                            </div>,
+                            <p className="flex flex-row text-xl" key="dwnlds">
+                                <ArrowDownCircleIcon className="size-7 pr-1"/>{mod.downloads} Downloads
+                            </p>,
+                            <p className="flex flex-row text-xl" key="clk">
+                                <ClockIcon className="size-7 pr-1"/>Updated 3 weeks ago
+                            </p>,
+                            <div className="h-full" key="pdd"></div>,
+                            <div className="pb-1 flex flex-row" key="submitter">
+                                <SquareImage src={mod.user.pfp} size="big"/>
+                                <h3 className="ml-2 text-xl font-bold">{mod.user.name}</h3>
+                            </div>
+                        ] : undefined
+                    }
+                    
                 </div> 
             </div>
-            <h1 className="text-4xl font-bold pt-3">{mod.title}</h1>
+            <h1 className="text-4xl font-bold pt-3">{mod?.title}</h1>
             <div className="text-xl text-neutral-300">
-                <Markdown rehypePlugins={[rehypeRaw]}>{mod.description}</Markdown>
+                <Markdown rehypePlugins={[rehypeRaw]}>{mod?.description}</Markdown>
             </div>
         </div>
-            ) : <></>
-        }
+        
         
         <div className="flex-2">
             <ModSideSuggestions/>
