@@ -101,8 +101,8 @@ export default function ModPage() {
                                     Downloading...
                                 </span>
                             }
-                            className="cursor-pointer bg-download hover:bg-download-hover transition-colors text-2xl text-font-dark font-bold flex flex-row justify-center rounded-border-inner p-3 w-full"
-                            loadingClassName="bg-download transition-colors text-xl text-font-dark font-bold flex flex-row justify-center rounded-border-inner p-3 w-full"
+                            className="min-w-50 cursor-pointer bg-download hover:bg-download-hover transition-colors text-2xl text-font-dark font-bold flex flex-row justify-center rounded-border-inner p-3 w-full"
+                            loadingClassName="min-w-50 bg-download transition-colors text-xl text-font-dark font-bold flex flex-row justify-center rounded-border-inner p-3 w-full"
                         >
                             <ArrowDownTrayIcon className="size-8 stroke-icons"/>
                             <span className="pl-1">Download</span>
