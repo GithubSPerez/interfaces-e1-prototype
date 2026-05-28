@@ -1,6 +1,6 @@
 'use client'
 
-import ModPreview from "@/app/components/modpreview";
+import ModPreview from "@/app/components/common/modpreview";
 import { useEffect, useState } from "react";
 import { FeedFilter,  Mod, requestMods } from "@/app/models";
 import { getGame } from "@/app/storage";

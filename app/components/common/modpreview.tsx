@@ -3,7 +3,7 @@
 import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
 import SquareImage from "./squareimage";
 import { useRouter } from "next/navigation";
-import { Mod } from "../models";
+import { Mod } from "../../models";
 import { Preview } from "./preview";
 
 export function ModThumbnail({src, reduced = false, containerClass = ""}: {src: string | undefined, reduced?: boolean, containerClass?: string}) {

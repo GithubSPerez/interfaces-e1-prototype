@@ -1,11 +1,11 @@
 'use client';
 
 import { Square3Stack3DIcon } from "@heroicons/react/24/outline";
-import SquareImage from "./squareimage";
-import { Game } from "../models";
-import { Preview } from "./preview";
+import SquareImage from "../common/squareimage";
+import { Game } from "../../models";
+import { Preview } from "../common/preview";
 import { useRouter } from "next/navigation";
-import { setGame } from "../storage";
+import { setGame } from "../../storage";
 
 export function GamePreviewImage({src, reduced = false, containerClass = ""}: {src: string, reduced?: boolean, containerClass?: string}) {
     const sizeClasses = {

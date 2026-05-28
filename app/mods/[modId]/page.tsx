@@ -1,17 +1,17 @@
 'use client'
-import LikeBar from "@/app/components/likebar";
-import ModSideSuggestions from "@/app/components/modsidesuggestions";
+import LikeBar from "@/app/components/mod/likebar";
+import ModSideSuggestions from "@/app/components/mod/modsidesuggestions";
 import { Mod, requestMod } from "@/app/models";
-import SquareImage from "@/app/components/squareimage";
+import SquareImage from "@/app/components/common/squareimage";
 //import { ArrowDownTrayIcon, ClockIcon, DocumentTextIcon, HeartIcon, InformationCircleIcon, PlusCircleIcon } from "@heroicons/react/16/solid";
 //import { ArrowDownCircleIcon } from "@heroicons/react/16/solid";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
-import { ModThumbnail } from "@/app/components/modpreview";
+import { ModThumbnail } from "@/app/components/common/modpreview";
 import { ArrowDownCircleIcon, ArrowDownTrayIcon, ClockIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
-import ActionButton from "@/app/components/actionbutton";
+import ActionButton from "@/app/components/common/actionbutton";
 import axios from "axios";
 
 export default function ModPage() {

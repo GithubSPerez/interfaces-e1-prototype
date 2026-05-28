@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import ModPreview from "../modpreview";
+import ModPreview from "../common/modpreview";
 import { FeedFilter, Mod, requestMods } from "../../models";
 import { getGame } from "../../storage";
 import { APP_SETTINGS, APP_TEXTS } from "../../../lib/constants";
-import Text from "../text";
+import Text from "../common/text";
 
 export default function ModCarousel() {
   const [mods, setMods] = useState<Mod[]>([]);

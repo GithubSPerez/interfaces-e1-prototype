@@ -1,5 +1,5 @@
-import SquareImage from "./squareimage";
-import { Game, iconPlaceholder } from "../models";
+import SquareImage from "../common/squareimage";
+import { Game, iconPlaceholder } from "../../models";
 import Link from "next/link";
 
 export default function GameIcon({game}: {game: Game | undefined}) {

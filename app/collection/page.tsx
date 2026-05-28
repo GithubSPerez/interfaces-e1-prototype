@@ -2,8 +2,8 @@
 import { Mod } from "../models";
 import { useEffect, useMemo, useState } from "react";
 import { DocumentIcon, Cog6ToothIcon, ArrowDownTrayIcon } from "@heroicons/react/24/outline";
-import ActionButton from "../components/actionbutton";
-import ModInCollection from "../components/modincollection";
+import ActionButton from "../components/common/actionbutton";
+import ModInCollection from "../components/collection/modincollection";
 import axios from "axios";
 
 export default function Collection() {

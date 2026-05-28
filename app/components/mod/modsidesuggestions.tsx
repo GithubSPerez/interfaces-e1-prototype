@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import ModPreview from "./modpreview";
-import { FeedFilter, Mod, requestMods } from "../models";
-import { getGame } from "../storage";
+import ModPreview from "../common/modpreview";
+import { FeedFilter, Mod, requestMods } from "../../models";
+import { getGame } from "../../storage";
 
 export default function ModSideSuggestions() {
     const [mods, setMods] = useState<(Mod | undefined)[]>(Array(20).fill(undefined))

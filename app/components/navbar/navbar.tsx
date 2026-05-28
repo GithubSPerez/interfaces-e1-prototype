@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import GameIcon from "./gameicon";
 import Logo from "./logo";
 import Searchbar from "./searchbar";
-import { getGame, setGame } from "../storage";
-import { Game, requestGames } from "../models";
+import { getGame, setGame } from "../../storage";
+import { Game, requestGames } from "../../models";
 import { useRouter, usePathname } from "next/navigation";
 
-import ActionButton from "./actionbutton";
+import ActionButton from "../common/actionbutton";
 import { ArchiveBoxArrowDownIcon } from "@heroicons/react/24/outline";
 
 function NavbarItem({children}: {children: React.ReactNode}) {
