@@ -5,10 +5,12 @@ import { DocumentIcon, Cog6ToothIcon, ArrowDownTrayIcon } from "@heroicons/react
 import ActionButton from "../components/common/actionbutton";
 import ModInCollection from "../components/collection/modincollection";
 import axios from "axios";
+import { APP_TEXTS } from "@/lib/constants";
 
 export default function Collection() {
   const [savedMods, setSavedMods] = useState<Mod[]>([]);
   const [isDownloading, setIsDownloading] = useState<boolean>(false);
+  const { overview, modsAdded, modAdded, estimatedSpace, download, downloading, noMods } = APP_TEXTS.collection;
 
   useEffect(() => {
     const modsInCollection = localStorage.getItem("savedMods");
@@ -25,9 +27,9 @@ export default function Collection() {
     return savedMods.length;
   }, [savedMods]);
 
-  const estimatedSpace = useMemo(() => {
+  const totalSpace = useMemo(() => {
     return savedMods.reduce((acc, mod) => {
-      return acc + Number(calculateModSpaceInMB(mod));
+      return acc + Number(mod.fileSize);
     }, 0);
   }, [savedMods]);
 
@@ -108,7 +110,7 @@ export default function Collection() {
             <ModInCollection key={mod.id} modSpace={calculateModSpaceInMB(mod)} mod={mod} handleDeleteSavedMod={handleDeleteSavedMod}></ModInCollection>))
 
           ) : (
-            <h1 className="text-3xl space-grotesk-bold">There are no mods in the collection.</h1>
+            <h1 className="text-3xl space-grotesk-bold">{noMods}</h1>
           )}
           
         </div>
@@ -116,7 +118,7 @@ export default function Collection() {
         <div className="w-95 h-fit bg-bglite rounded-[13px] p-10 flex flex-col gap-6">
 
           <div className="border-b border-separator pb-2">
-            <h1 className="text-3xl font-bold space-grotesk-bold">Overview</h1>
+            <h1 className="text-3xl font-bold space-grotesk-bold">{overview}</h1>
           </div>
 
           <div className="flex items-center gap-2 border-b border-separator pb-2">
@@ -124,9 +126,9 @@ export default function Collection() {
             <div className="flex items-center gap-1">
               <span className="text-font font-bold">{modsAddedCount}</span>
               {modsAddedCount > 1 ? (
-                <span className="text-font">mods added to the collection</span>
+                <span className="text-font">{modsAdded}</span>
               ) : (
-                <span className="text-font">mod added to the collection</span>
+                <span className="text-font">{modAdded}</span>
               )}
             </div>
           </div>
@@ -134,22 +136,22 @@ export default function Collection() {
           <div className="flex items-center gap-2 border-b border-separator pb-2">
             <DocumentIcon className="w-6 h-6"></DocumentIcon>
             <div className="flex items-center gap-1">
-              <span className="text-font font-bold">{estimatedSpace.toFixed(2)} MB</span>
-              <span className="text-font">of estimated space</span>
+              <span className="text-font font-bold">{(totalSpace / 1024 / 1024).toFixed(2)} MB</span>
+              <span className="text-font">{estimatedSpace}</span>
             </div>
           </div>
 
           <div className="flex flex-col gap-4 mt-4">
             <ActionButton onClick={handleDownloadAll} 
             loading={isDownloading} 
-            loadingChildren="Downloading..." 
+            loadingChildren={downloading} 
             className="bg-download rounded-lg py-3 text-font-dark cursor-pointer hover:bg-download-hover gap-3"
             loadingClassName="bg-download rounded-lg py-3 text-font-dark opacity-30"
             disabled={isDownloading || modsAddedCount == 0}>
               <div className="size-8">
                 <ArrowDownTrayIcon className="stroke-icons"></ArrowDownTrayIcon>
               </div>
-              Download
+              {download}
             </ActionButton>
             
           </div>

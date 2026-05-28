@@ -6,6 +6,7 @@ import { Game } from "../../models";
 import { Preview } from "../common/preview";
 import { useRouter } from "next/navigation";
 import { setGame } from "../../storage";
+import { APP_TEXTS } from "../../../lib/constants";
 
 export function GamePreviewImage({src, reduced = false, containerClass = ""}: {src: string, reduced?: boolean, containerClass?: string}) {
     const sizeClasses = {
@@ -23,13 +24,15 @@ function GameInfo({game, reduced = false}: {game: Game, reduced?: boolean}) {
     const iconSize = reduced ? "size-4" : "size-5"
     const infoSize = reduced ? "text-sm" : ""
     const infoClass = `${infoSize} text-neutral-300`
+    const { modsCount } = APP_TEXTS.landing;
+
     return <div className="flex flex-col justify-start text-left">
         <p className={titleSize}>
             <b>{game.name}</b>
         </p>
         <div className={`flex flex-row align-middle mt-1 ${infoClass}`}>
             <Square3Stack3DIcon className={`${iconSize} mr-1`}/>
-            {game.modCount.toLocaleString()} Mods
+            {game.modCount.toLocaleString()} {modsCount}
         </div>
     </div>
 }
