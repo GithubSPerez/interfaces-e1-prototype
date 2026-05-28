@@ -1,7 +1,8 @@
 import SquareImage from "./squareimage";
 import { Game, iconPlaceholder } from "../models";
+import Link from "next/link";
 
 export default function GameIcon({game}: {game: Game | undefined}) {
-    return <SquareImage src={game?.icon || iconPlaceholder}
-    size="normal"></SquareImage>
+    return <Link href="/mod" onClick={() => window.location.reload()}><SquareImage src={game?.icon || iconPlaceholder}
+    size="normal"></SquareImage></Link>
 }

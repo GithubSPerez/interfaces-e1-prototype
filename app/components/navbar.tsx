@@ -6,6 +6,7 @@ import Logo from "./logo";
 import Searchbar from "./searchbar";
 import { getGame, setGame } from "../storage";
 import { Game, requestGames } from "../models";
+import { useRouter } from "next/navigation";
 
 function NavbarItem({children}: {children: React.ReactElement}) {
     return <div className="flex flex-col justify-center p-2">{children}</div>
@@ -14,6 +15,7 @@ function NavbarItem({children}: {children: React.ReactElement}) {
 
 export default function Navbar() {
     const [currentGame, setCurrentGame] = useState<Game | undefined>()
+    const router = useRouter()
 
     useEffect(() => {
         setCurrentGame(getGame())
@@ -30,7 +32,7 @@ export default function Navbar() {
         </div>
         <div className="flex flex-row justify-center flex-3">
             <NavbarItem>
-                <Searchbar></Searchbar>
+                <Searchbar onSubmit={(value) => {router.replace(`/mod/?search=${value}`)}}></Searchbar>
             </NavbarItem>
         </div>
         <div className="flex-1">
