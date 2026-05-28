@@ -26,9 +26,17 @@
   font-style: normal;
 }
 
+.space-grotesk-bold {
+  font-family: "Space Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
 @theme {
   --color-bgcolor: #1D1828;
   --color-bglite: #242039;
+  --color-bglite-hover: #383965;
   --color-bglitest: #2D274C;
   --color-container: #2A2B47;
   --color-font: #D9D9D9;
@@ -38,13 +46,24 @@
   --color-download-hover: #FFE2AF;
   --color-cart: #A6BFF6;
   --color-cart-hover: #B4D7FF;
+  --color-separator: rgba(72, 69, 100, 0.3);
+  
+  --color-neutral: #D9D9D9;
+  --color-neutral-hovered: #7C739D;
 
+
+    
   --radius-border-outer: 15px;
   --radius-border-inner: 6px;
 }
 
 .stroke-icons {
   stroke-width: 2;
+}
+
+.dark-icons {
+  stroke-width: 2;
+  color: var(--color-font-dark);
 }
 
 inline {
