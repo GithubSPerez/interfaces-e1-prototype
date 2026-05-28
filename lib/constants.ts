@@ -11,7 +11,7 @@ export const APP_TEXTS = {
     downloadButton: "Download",
     collectButton: "Collect",
     featuresTitle: "Also try others mods!",
-    trendingGamesTitle: "Top Trending Games",
+    trendingGamesTitle: "Top trending games",
     loadingGames: "Loading trending games...",
     viewAllGames: "View all trending games",
     showLess: "Show less",
