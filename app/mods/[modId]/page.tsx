@@ -13,7 +13,6 @@ import { ModThumbnail } from "@/app/components/common/modpreview";
 import { ArrowDownCircleIcon, ArrowDownTrayIcon, ClockIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import ActionButton from "@/app/components/common/actionbutton";
 import axios from "axios";
-import { APP_TEXTS } from "@/lib/constants";
 
 export default function ModPage() {
     const params = useParams<{modId: string}>()
@@ -21,7 +20,6 @@ export default function ModPage() {
     const [showAddedNonModal, setShowAddedNonModal] = useState<boolean>(false);
     const [alreadySavedMod, setAlreadySavedMod] = useState<boolean>(false);
     const [isDownloading, setIsDownloading] = useState(false);
-    const { download, downloading, addedToCollection, downloadsCount, updatedAt } = APP_TEXTS.mod;
 
     const getSavedMods = (): Mod[] => {
         const localStorageMods = localStorage.getItem("savedMods");
@@ -99,14 +97,14 @@ export default function ModPage() {
                             disabled={!mod}
                             loadingChildren={
                                 <span className="flex items-center gap-2">
-                                    {downloading}
+                                    Downloading...
                                 </span>
                             }
                             className="min-w-50 cursor-pointer bg-download hover:bg-download-hover transition-colors text-2xl text-font-dark font-bold flex flex-row justify-center rounded-border-inner p-3 w-full"
                             loadingClassName="min-w-50 bg-download transition-colors text-xl text-font-dark font-bold flex flex-row justify-center rounded-border-inner p-3 w-full"
                         >
                             <ArrowDownTrayIcon className="size-8 stroke-icons"/>
-                            <span className="pl-1">{download}</span>
+                            <span className="pl-1">Download</span>
                         </ActionButton>
                         
                         <ActionButton onClick={handleAddToCollection} 
@@ -132,10 +130,10 @@ export default function ModPage() {
                                 <LikeBar mod={mod}/>
                             </div>,
                             <p className="flex flex-row text-xl" key="dwnlds">
-                                <ArrowDownCircleIcon className="size-7 pr-1"/>{mod.downloads} {downloadsCount}
+                                <ArrowDownCircleIcon className="size-7 pr-1"/>{mod.downloads} Downloads
                             </p>,
                             <p className="flex flex-row text-xl" key="clk">
-                                <ClockIcon className="size-7 pr-1"/>{updatedAt}
+                                <ClockIcon className="size-7 pr-1"/>Updated 3 weeks ago
                             </p>,
                             <div className="h-full" key="pdd"></div>,
                             <div className="pb-1 flex flex-row" key="submitter">
@@ -160,7 +158,7 @@ export default function ModPage() {
         {showAddedNonModal && (
             <div className="fixed bottom-6 right-6 bg-bglite text-font px-5 py-3 rounded-border-inner flex items-center gap-3 animate-fade-in">
                 <PlusCircleIcon className="size-6 stroke-icons text-cart" />
-                <span className="font-medium">{addedToCollection}</span>
+                <span className="font-medium">Added to collection</span>
             </div>
         )}
     </div>

@@ -15,26 +15,6 @@ export const APP_TEXTS = {
     loadingGames: "Loading trending games...",
     viewAllGames: "View all trending games",
     showLess: "Show less",
-    modsCount: "Mods",
-  },
-  navbar: {
-    searchPlaceholder: "Search",
-  },
-  mod: {
-    download: "Download",
-    downloading: "Downloading...",
-    addedToCollection: "Added to collection",
-    downloadsCount: "Downloads",
-    updatedAt: "Updated 3 weeks ago",
-  },
-  collection: {
-    overview: "Overview",
-    modsAdded: "mods added to the collection",
-    modAdded: "mod added to the collection",
-    estimatedSpace: "of estimated space",
-    download: "Download Collection",
-    downloading: "Downloading Collection...",
-    noMods: "There are no mods in the collection."
   }
 };
 
