@@ -30,8 +30,8 @@ export default function ActionButton({
   const style = `
     flex items-center justify-center gap-2
     transition-colors rounded-border-inner py-3 text-2xl font-bold
-    ${isDisabled ? "opacity-30 cursor-not-allowed" : "cursor-pointer"}
     ${loading ? loadingClassName : className}
+    ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : "cursor-pointer"}
   `;
 
   if (href) {

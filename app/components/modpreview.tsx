@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowDownTrayIcon } from "@heroicons/react/16/solid";
+import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
 import SquareImage from "./squareimage";
 import { useRouter } from "next/navigation";
 import { Mod } from "../models";

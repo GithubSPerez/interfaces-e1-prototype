@@ -145,12 +145,13 @@ export default function Collection() {
             loadingChildren="Downloading..." 
             className="bg-download rounded-lg py-3 text-font-dark cursor-pointer hover:bg-download-hover gap-3"
             loadingClassName="bg-download rounded-lg py-3 text-font-dark opacity-30"
-            disabled={isDownloading}>
-              <div className="size-8 stroke-icons">
-                <ArrowDownTrayIcon></ArrowDownTrayIcon>
+            disabled={isDownloading || modsAddedCount == 0}>
+              <div className="size-8">
+                <ArrowDownTrayIcon className="stroke-icons"></ArrowDownTrayIcon>
               </div>
               Download
             </ActionButton>
+            
           </div>
 
         </div>
