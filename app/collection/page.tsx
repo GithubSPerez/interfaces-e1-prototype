@@ -140,28 +140,17 @@ export default function Collection() {
           </div>
 
           <div className="flex flex-col gap-4 mt-4">
-            { modsAddedCount > 0 ? (
-              <ActionButton onClick={handleDownloadAll} 
-              loading={isDownloading} 
-              loadingChildren="Downloading..." 
-              className="bg-download rounded-lg py-3 text-font-dark cursor-pointer hover:bg-download-hover gap-3"
-              loadingClassName="bg-download rounded-lg py-3 text-font-dark opacity-30"
-              disabled={isDownloading}>
-                <div className="size-8 stroke-icons">
-                  <ArrowDownTrayIcon></ArrowDownTrayIcon>
-                </div>
-                Download
-              </ActionButton>
-            ) : (
-              <ActionButton onClick={handleDownloadAll} 
-              className="bg-download rounded-lg py-3 text-font-dark gap-3 cursor-not-allowed"
-              disabled={true}>
-                <div className="size-8 stroke-icons">
-                  <ArrowDownTrayIcon></ArrowDownTrayIcon>
-                </div>
-                Download
-              </ActionButton>
-            )}
+            <ActionButton onClick={handleDownloadAll} 
+            loading={isDownloading} 
+            loadingChildren="Downloading..." 
+            className="bg-download rounded-lg py-3 text-font-dark cursor-pointer hover:bg-download-hover gap-3"
+            loadingClassName="bg-download rounded-lg py-3 text-font-dark opacity-30"
+            disabled={isDownloading || modsAddedCount == 0}>
+              <div className="size-8">
+                <ArrowDownTrayIcon className="stroke-icons"></ArrowDownTrayIcon>
+              </div>
+              Download
+            </ActionButton>
             
           </div>
 
