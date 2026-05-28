@@ -1,4 +1,4 @@
-import { HandThumbDownIcon, HandThumbUpIcon } from "@heroicons/react/16/solid";
+import { HandThumbDownIcon, HandThumbUpIcon } from "@heroicons/react/24/outline";
 import { Mod } from "../models";
 
 function countDisplay(ammount: number) {

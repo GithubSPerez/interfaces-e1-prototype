@@ -2,8 +2,6 @@ export const APP_TEXTS = {
   landing: {
     heroTitle: "The fastest way to add mods for your favorite games.",
     heroSubtitle: "The new way to download mods. Simpler, faster, and built for you.",
-    searchPlaceholder: "Search for new mods",
-    searchButton: "Explore Now!",
     loadingMods: "Loading mods...",
     functionalityTitle: "Everything You Need",
     functionalities: [
@@ -12,12 +10,16 @@ export const APP_TEXTS = {
     ],
     downloadButton: "Download",
     collectButton: "Collect",
-    featuresTitle: "Discover now 1000+ mods!",
+    featuresTitle: "Also try others mods!",
+    trendingGamesTitle: "Top Trending Games",
+    loadingGames: "Loading trending games...",
+    viewAllGames: "View all trending games",
+    showLess: "Show less",
   }
 };
 
 export const APP_SETTINGS = {
   landing: {
-    marqueeSpeed: "120s",
+    carouselSpeed: "120s",
   }
 };

@@ -16,7 +16,6 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <Navbar></Navbar>
-        <div className="h-14 bg-transparent"></div>
         <Page>
           {children}
         </Page>

@@ -65,3 +65,53 @@ body {
   color: var(--color-font);
   font-family: 'Space Grotesk', sans-serif;
 }
+
+@keyframes carousel {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-carousel {
+  animation: carousel var(--carousel-speed, 30s) linear infinite;
+}
+
+.animate-carousel:hover {
+  animation-play-state: paused;
+}
+
+.carousel-mask {
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+}
+
+@layer components {
+  .fade-overlay {
+    @apply absolute inset-0 bg-gradient-to-t from-bgcolor from-10% via-bgcolor/80 to-transparent backdrop-blur-[10px];
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 40%, black 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 40%, black 100%);
+  }
+
+  .text-link-hover {
+    @apply text-font-disabled hover:text-white font-bold transition-colors cursor-pointer;
+  }
+}
+
+
+@keyframes tetris-float {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(40px) rotate(10deg);
+  }
+
+  100% {
+    transform: translateY(-20px) rotate(-10deg);
+  }
+}
