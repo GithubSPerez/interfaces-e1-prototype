@@ -1,5 +1,5 @@
-import { ModThumbnail } from "./modpreview";
-import { Mod } from "../models";
+import { ModThumbnail } from "../common/modpreview";
+import { Mod } from "../../models";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 type Params = {
@@ -12,7 +12,7 @@ export default function ModInCollection({mod, modSpace, handleDeleteSavedMod} : 
     const router = useRouter()
 
     return <div className="flex items-center w-full justify-between border-b border-separator p-4 rounded-border-inner hover:bg-bglite-hover">
-              <div className="flex gap-5 items-center cursor-pointer" onClick={() => {router.push(`/mod/${mod.id}`)}}>
+              <div className="flex gap-5 items-center cursor-pointer" onClick={() => {router.push(`/mods/${mod.id}`)}}>
                 <ModThumbnail src={mod.preview} containerClass="" reduced={true}/>
 
                 <div className="flex flex-col gap-2">

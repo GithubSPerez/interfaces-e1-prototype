@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import GameIcon from "./gameicon";
 import Logo from "./logo";
 import Searchbar from "./searchbar";
-import { getGame } from "../storage";
-import { Game } from "../models";
-import { usePathname } from "next/navigation";
-import ActionButton from "./actionbutton";
+import { getGame, setGame } from "../../storage";
+import { Game, requestGames } from "../../models";
+import { useRouter, usePathname } from "next/navigation";
+
+import ActionButton from "../common/actionbutton";
 import { ArchiveBoxArrowDownIcon } from "@heroicons/react/24/outline";
 
 function NavbarItem({children}: {children: React.ReactNode}) {
@@ -14,9 +15,11 @@ function NavbarItem({children}: {children: React.ReactNode}) {
 
 export default function Navbar() {
     const [currentGame, setCurrentGame] = useState<Game | undefined>()
+    const router = useRouter()
     const pathname = usePathname()
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setCurrentGame(getGame())
     }, [])
 
@@ -33,7 +36,7 @@ export default function Navbar() {
         </div>
         <div className="flex flex-row flex-1 justify-center">
             <NavbarItem>
-                {!isLandingPage && <Searchbar />}
+                {!isLandingPage && <Searchbar onSubmit={(value) => {router.replace(`/mods/?search=${value}`)}}/>}
             </NavbarItem>
         </div>
         <div className="flex flex-row flex-1 justify-end pr-10">
@@ -42,7 +45,7 @@ export default function Navbar() {
                     href="/collection"
                     className="bg-cart hover:bg-cart-hover px-4"
                 >
-                    <ArchiveBoxArrowDownIcon className="size-8 stroke-icons text-font-dark" />
+                    <ArchiveBoxArrowDownIcon className="size-8 stroke-1 text-font-dark" />
                     <span className="text-font-dark text-xl font-semibold space-grotesk-bold">
                         Collection
                     </span>

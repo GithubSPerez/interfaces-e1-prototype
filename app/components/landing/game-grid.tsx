@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import GamePreview from "../gamepreview";
+import GamePreview from "./gamepreview";
 import { Game, requestGames } from "../../models";
 import { APP_TEXTS } from "../../../lib/constants";
-import Text from "../text";
+import Text from "../common/text";
 
 export default function GameGrid({ initialRows = 1 }: { initialRows?: number }) {
   const [games, setGames] = useState<Game[]>([]);

@@ -167,7 +167,7 @@ function parseGame(gameRes: GameResponse) {
 }
 
 export async function requestMods(game: Game, page: number, feedFilter: FeedFilter, searchName?: string) {
-    const url = apiModsUrl(game.id, page, feedFilter, 10, searchName)
+    const url = apiModsUrl(game.id, page, feedFilter, 12, searchName)
     const response: AxiosResponse<ModResponse[]> = await axios.get(url)
 
     const mods = response.data.map(parseMod)

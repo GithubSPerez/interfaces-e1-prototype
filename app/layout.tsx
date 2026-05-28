@@ -1,7 +1,7 @@
 'use client';
 
 import "./globals.css";
-import Navbar from "./components/navbar";
+import Navbar from "./components/navbar/navbar";
 import Page from "./components/page";
 
 export default function RootLayout({

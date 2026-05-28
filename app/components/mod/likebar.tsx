@@ -1,5 +1,5 @@
 import { HandThumbDownIcon, HandThumbUpIcon } from "@heroicons/react/24/outline";
-import { Mod } from "../models";
+import { Mod } from "../../models";
 
 function countDisplay(ammount: number) {
     if (ammount >= 1100)

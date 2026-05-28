@@ -1,8 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Logo() {
-    return <Link href="/"><Image
+  const router = useRouter()
+  
+    return <Link href="/" onClick={() => window.location.reload()}><Image
           className=""
           src="/logo.png"
           alt="Next.js logo"

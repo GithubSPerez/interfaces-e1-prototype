@@ -5,7 +5,7 @@ import TetrisBackground from "./components/landing/tetris-background";
 import FunctionalityOverview from "./components/landing/functionality-overview";
 import ModCarousel from "./components/landing/mod-carousel";
 import GameGrid from "./components/landing/game-grid";
-import Text from "./components/text";
+import Text from "./components/common/text";
 
 export default function Landing() {
   const { landing } = APP_TEXTS;
