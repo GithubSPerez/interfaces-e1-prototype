@@ -39,7 +39,7 @@ export default function Navbar() {
                     href="/collection"
                     className="flex items-center gap-2"
                 >
-                    <ArchiveBoxArrowDownIcon className="size-8 stroke-icons dark-icons" />
+                    <ArchiveBoxArrowDownIcon className="size-8 stroke-1 text-font-dark" />
                     <span className="text-font-dark text-xl font-semibold">
                         Collection
                     </span>
