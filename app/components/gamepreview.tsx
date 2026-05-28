@@ -70,7 +70,7 @@ export default function GamePreview({game, sideview = false}: {game: Game, sidev
         <button className={`cursor-pointer bg-transparent hover:bg-container rounded-xl w-full transition-colors`}
         onClick={() => {
             setGame(game);
-            router.push('/explore');
+            router.push('/mods');
         }}>
             {sideview ? <GameSideviewPreviewContents game={game}/> : <GameNormalPreviewContents game={game}/>}
         </button>

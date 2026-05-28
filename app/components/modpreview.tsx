@@ -67,7 +67,7 @@ export default function ModPreview({mod, sideview = false}: {mod: Mod | undefine
     return <div className={`p-1 shrink`}>
         <button className={`cursor-pointer bg-transparent hover:bg-container rounded-xl w-full transition-colors`}
         disabled={!mod}
-        onClick={() => {router.push(`/mod/${mod?.id}`)}}>
+        onClick={() => {router.push(`/mods/${mod?.id}`)}}>
             {sideview ? <ModSideviewPreviewContents mod={mod}/> : <ModNormalPreviewContents mod={mod}/>}
         </button>
     </div>
