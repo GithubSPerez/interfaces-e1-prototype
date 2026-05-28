@@ -85,7 +85,7 @@ type ModMediaResponse = {
 }
 
 type ModFileResponse = {
-    _nFileSize: number,
+    _nFilesize: number,
     _sDownloadUrl: string
 }
 
@@ -131,7 +131,6 @@ function parseMod(modRes: ModResponse) {
     }
 
     const file = modRes._aFiles[0]
-
     const result: Mod = {
         id: modRes._idRow,
         title: modRes._sName,
@@ -142,7 +141,7 @@ function parseMod(modRes: ModResponse) {
         dislikes: Math.floor(modRes._nLikeCount / 8),
         preview,
         updatedAt: modRes._tsDateUpdated,
-        fileSize: file._nFileSize,
+        fileSize: file._nFilesize,
         file: file._sDownloadUrl,
         tags: [modRes._aCategory._sName, modRes._aRootCategory._sName],
         user: {
