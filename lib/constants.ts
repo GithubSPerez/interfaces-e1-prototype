@@ -1,3 +1,5 @@
+//todo: normalizar los textos del proyecto para utilizar constantes definidos en estos archivos.
+
 export const APP_TEXTS = {
   landing: {
     heroTitle: "The fastest way to add mods for your favorite games.",

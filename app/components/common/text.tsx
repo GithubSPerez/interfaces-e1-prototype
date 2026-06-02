@@ -8,6 +8,8 @@ interface TextProps {
   children: React.ReactNode;
 }
 
+//todo: normalizar los textos del proyecto para solo utilizar los definidos en este archivo.
+
 const variantStyles: Record<Variant, string> = {
   h1: 'text-4xl font-bold text-font',
   h2: 'text-2xl font-bold text-font',
