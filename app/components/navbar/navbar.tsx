@@ -43,7 +43,7 @@ export default function Navbar() {
             <NavbarItem>
                 <ActionButton
                     href="/collection"
-                    className="bg-cart hover:bg-cart-hover px-4"
+                    className="bg-cart hover:bg-cart-hover px-4 h-10"
                 >
                     <ArchiveBoxArrowDownIcon className="size-8 stroke-1 text-font-dark" />
                     <span className="text-font-dark text-xl font-semibold space-grotesk-bold">
