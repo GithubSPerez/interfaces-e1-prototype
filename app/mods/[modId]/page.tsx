@@ -85,74 +85,86 @@ export default function ModPage() {
         }
     };
 
-    return <div className="flex flex-row">
-            <div className="flex flex-5 flex-col p-5">
+    const downloadStyle = "min-w-50 bg-download transition-colors text-xl sm:text-2xl text-font-dark font-bold flex flex-row justify-center rounded-border-inner p-2 !py-2 sm:p-3 sm:py-3 w-full"
+    const addStyle = "flex flex-row justify-center bg-cart text-font-dark transition-colors aspect-square ml-3 p-2 py-2 sm:p-3 sm:py-3"
+
+    const options = (mobile = false) => 
+        <div className={(mobile ? "flex sm:hidden" : "hidden sm:flex") + " flex-col w-full bg-bglite sm:ml-6 rounded-xl p-4 min-h-0 flex-2 text-lg sm:text-xl"}>
             <div className="flex flex-row">
-                <ModThumbnail src={mod?.preview} containerClass="flex-5"/>
-                <div className="flex flex-col w-full bg-bglite ml-6 rounded-xl p-4 min-h-0 flex-2">
-                    <div className="flex flex-row">
-                        <ActionButton
-                            onClick={handleDownload}
-                            loading={isDownloading}
-                            disabled={!mod}
-                            loadingChildren={
-                                <span className="flex items-center gap-2">
-                                    Downloading...
-                                </span>
-                            }
-                            className="min-w-50 cursor-pointer bg-download hover:bg-download-hover transition-colors text-2xl text-font-dark font-bold flex flex-row justify-center rounded-border-inner p-3 w-full"
-                            loadingClassName="min-w-50 bg-download transition-colors text-xl text-font-dark font-bold flex flex-row justify-center rounded-border-inner p-3 w-full"
-                        >
-                            <ArrowDownTrayIcon className="size-8 stroke-icons"/>
-                            <span className="pl-1">Download</span>
-                        </ActionButton>
-                        
-                        <ActionButton onClick={handleAddToCollection} 
-                        loading={alreadySavedMod} 
-                        className="cursor-pointer flex flex-row justify-center bg-cart hover:bg-cart-hover text-font-dark transition-colors aspect-square ml-3 p-3"
-                        loadingClassName="flex flex-row justify-center bg-cart opacity-30 text-font-dark transition-colors aspect-square ml-3 p-3"
-                        loadingChildren={
-                            <div className="flex flex-col justify-center h-full">
-                                <PlusCircleIcon className="size-8 stroke-icons "/>
-                            </div>
-                        }
-                        disabled={alreadySavedMod || !mod}>
-                            <div className="flex flex-col justify-center h-full">
-                                <PlusCircleIcon className="size-8 stroke-icons "/>
-                            </div>
-                        </ActionButton>
-                        
-                    </div>
-                    
-                    {
-                        mod ? [
-                            <div className="pt-3 pb-3" key="likebar">
-                                <LikeBar mod={mod}/>
-                            </div>,
-                            <p className="flex flex-row text-xl" key="dwnlds">
-                                <ArrowDownCircleIcon className="size-7 pr-1"/>{mod.downloads} Downloads
-                            </p>,
-                            <p className="flex flex-row text-xl" key="clk">
-                                <ClockIcon className="size-7 pr-1"/>Updated 3 weeks ago
-                            </p>,
-                            <div className="h-full" key="pdd"></div>,
-                            <div className="pb-1 flex flex-row" key="submitter">
-                                <SquareImage src={mod.user.pfp} size="big"/>
-                                <h3 className="ml-2 text-xl font-bold">{mod.user.name}</h3>
-                            </div>
-                        ] : undefined
+                <ActionButton
+                    onClick={handleDownload}
+                    loading={isDownloading}
+                    disabled={!mod}
+                    loadingChildren={
+                        <span className="flex items-center gap-2">
+                            Downloading...
+                        </span>
                     }
-                    
-                </div> 
+                    className={downloadStyle + " cursor-pointer  hover:bg-download-hover"}
+                    loadingClassName={downloadStyle}
+                >
+                    <ArrowDownTrayIcon className="size-6 sm:size-8 stroke-icons"/>
+                    <span className="pl-1">Download</span>
+                </ActionButton>
+                
+                <ActionButton onClick={handleAddToCollection} 
+                loading={alreadySavedMod} 
+                className={addStyle + "cursor-pointer hover:bg-cart-hover"}
+                loadingClassName={addStyle}
+                loadingChildren={
+                    <div className="flex flex-col justify-center h-full">
+                        <PlusCircleIcon className="size-8 stroke-icons "/>
+                    </div>
+                }
+                disabled={alreadySavedMod || !mod}>
+                    <div className="flex flex-col justify-center h-full">
+                        <PlusCircleIcon className="size-8 stroke-icons "/>
+                    </div>
+                </ActionButton>
+                
             </div>
-            <h1 className="text-4xl font-bold pt-3">{mod?.title}</h1>
-            <div className="text-xl text-neutral-300">
-                <Markdown rehypePlugins={[rehypeRaw]}>{mod?.description}</Markdown>
+            
+            {
+                mod ? [
+                    <div className="pt-3 pb-3" key="likebar">
+                        <LikeBar mod={mod}/>
+                    </div>,
+                    <p className="flex flex-row" key="dwnlds">
+                        <ArrowDownCircleIcon className="size-7 pr-1"/>{mod.downloads} Downloads
+                    </p>,
+                    <p className="flex flex-row" key="clk">
+                        <ClockIcon className="size-7 pr-1"/>Updated 3 weeks ago
+                    </p>,
+                    <div className="h-full" key="pdd"></div>,
+                    <div className="pb-1 flex flex-row" key="submitter">
+                        <SquareImage src={mod.user.pfp} size="big"/>
+                        <h3 className="ml-2 font-bold">{mod.user.name}</h3>
+                    </div>
+                ] : undefined
+            }
+            
+        </div> 
+
+    return <div className="flex flex-row">
+        <div className="flex flex-5 flex-col sm:p-5">
+            <div className="flex flex-row">
+                <ModThumbnail src={mod?.preview} containerClass="hidden sm:flex flex-5"/>
+                <ModThumbnail src={mod?.preview} inner containerClass="sm:hidden flex-5"/>
+                {options()}
+            </div>
+            <div className="p-3 sm:p-0">
+                <h1 className="text-2xl sm:text-4xl font-bold sm:pt-3">{mod?.title}</h1>
+                <div className="sm:hidden py-3">
+                    {options(true)}
+                </div>
+                <div className="text-xl text-neutral-300">
+                    <Markdown rehypePlugins={[rehypeRaw]}>{mod?.description}</Markdown>
+                </div>
             </div>
         </div>
         
         
-        <div className="flex-2">
+        <div className="hidden lg:block flex-2">
             <ModSideSuggestions/>
         </div>
         {showAddedNonModal && (

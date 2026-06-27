@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import { Mod } from "../../models";
 import { Preview } from "./preview";
 
-export function ModThumbnail({src, reduced = false, containerClass = ""}: {src: string | undefined, reduced?: boolean, containerClass?: string}) {
-    return Preview({src, reduced, containerClass})
+export const ModThumbnail: typeof Preview = ({src, reduced = false, containerClass = "", inner = false}) => {
+    return Preview({src, reduced, containerClass, inner})
 }
 
 function ModInfo({mod, reduced = false}: {mod: Mod, reduced?: boolean}) {
