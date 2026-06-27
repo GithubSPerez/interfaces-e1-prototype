@@ -43,6 +43,7 @@
   --color-font: #D9D9D9;
   --color-font-dark: #201E22;
   --color-font-disabled: #5B5271;
+  --color-font-secondary: #777777;
   --color-download: #F3C26E;
   --color-download-hover: #FFE2AF;
   --color-cart: #A6BFF6;
@@ -59,6 +60,7 @@
   --color-separator: rgba(72, 69, 100, 0.3);
   --radius-border-outer: 15px;
   --radius-border-inner: 6px;
+  --radius-border-none: 0px;
 }
 
 .stroke-icons {

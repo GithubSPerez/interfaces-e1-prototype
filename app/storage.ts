@@ -16,3 +16,14 @@ export function getGame() {
 export function setGame(game: Game) {
     localStorage.setItem("game", JSON.stringify(game))
 }
+
+export function getMobileSearch() {
+    if (typeof localStorage == "undefined") return false
+    return JSON.parse(localStorage.getItem("mobileSearch") || "false")
+}
+
+export function switchMobileSearch() {
+    console.log(getMobileSearch(), localStorage.getItem("mobileSearch"))
+    localStorage.setItem("mobileSearch", String(!getMobileSearch()))
+    console.log(getMobileSearch())
+}

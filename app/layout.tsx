@@ -15,7 +15,7 @@ export default function RootLayout({
       className={`font-space-grotesk h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Navbar></Navbar>
+        <Navbar/>
         <Page>
           {children}
         </Page>

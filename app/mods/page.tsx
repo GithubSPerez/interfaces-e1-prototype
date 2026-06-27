@@ -63,7 +63,7 @@ export default function Mods() {
   }, [isLoadingMore])
 
   return (
-    <div className="grid grid-cols-3 gap-y-8 p-3">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-y-6 sm:gap-y-8 p-0 sm:p-3">
       {mods.concat(noMoreMods ? [] : [undefined, undefined, undefined]).map((mod, index) => 
         <ModPreview mod = {mod} key={`${index}-${mod?.title}`}></ModPreview>
       )}
