@@ -39,7 +39,7 @@ export default function Navbar() {
         {
             !mobileSearch ?
             ([
-            <div className="flex flex-row flex-1 justify-start" key="left-nav">
+            <div className="flex flex-row flex-2 justify-start" key="left-nav">
                 <NavbarItem>
                     <Logo></Logo>
                 </NavbarItem>
@@ -47,12 +47,12 @@ export default function Navbar() {
                     <GameIcon game={currentGame}></GameIcon>
                 </NavbarItem>
             </div>,
-            <div className="hidden sm:flex flex-row flex-1 justify-center" key="center-nav">
-                <NavbarItem>
+            <div className="hidden sm:flex flex-row flex-3 justify-center" key="center-nav">
+                <NavbarItem className="w-full">
                     <Searchbar onSubmit={submitFunc} show={!isLandingPage}/>
                 </NavbarItem>
             </div>,
-            <div className="flex flex-row flex-1 justify-end pr-2 sm:pr-10" key="right-nav">
+            <div className="flex flex-row flex-2 justify-end pr-2 sm:pr-10" key="right-nav">
                 <NavbarItem className="sm:hidden">
                     <button className="h-full p-1" onClick={clickMobileSearch}>
                         <MagnifyingGlassIcon className="h-full"></MagnifyingGlassIcon>
@@ -61,10 +61,10 @@ export default function Navbar() {
                 <NavbarItem>
                     <ActionButton
                         href="/collection"
-                        className="bg-cart hover:bg-cart-hover px-4 h-10"
+                        className="bg-cart hover:bg-cart-hover px-4 h-11"
                     >
                         <ArchiveBoxArrowDownIcon className="size-8 stroke-1 text-font-dark" />
-                        <span className="hidden sm:visible text-font-dark text-xl font-semibold space-grotesk-bold">
+                        <span className="hidden sm:block text-font-dark text-xl font-semibold space-grotesk-bold">
                             Collection
                         </span>
                     </ActionButton>
