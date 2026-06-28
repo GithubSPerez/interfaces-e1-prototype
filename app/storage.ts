@@ -2,8 +2,10 @@
 
 import { Game, iconPlaceholder, previewPlaceholder } from "./models";
 
+export const defaultGame: Game = {id: 7692, name: "PT", icon: iconPlaceholder, preview: previewPlaceholder, modCount: 0}
+
 export function getGame() {
-    let game: Game = {id: 7692, name: "PT", icon: iconPlaceholder, preview: previewPlaceholder, modCount: 0}
+    let game: Game = defaultGame
     if (typeof localStorage == "undefined") return game
 
     const gameString = localStorage.getItem("game")

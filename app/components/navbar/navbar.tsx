@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import GameIcon from "./gameicon";
 import Logo from "./logo";
 import Searchbar from "./searchbar";
@@ -8,20 +8,16 @@ import { useRouter, usePathname } from "next/navigation";
 
 import ActionButton from "../common/actionbutton";
 import { ArchiveBoxArrowDownIcon } from "@heroicons/react/24/outline";
+import { CurrentGame } from "@/app/context";
 
 function NavbarItem({children}: {children: React.ReactNode}) {
     return <div className="flex flex-col justify-center p-2">{children}</div>
 }
 
 export default function Navbar() {
-    const [currentGame, setCurrentGame] = useState<Game | undefined>()
+    const [currentGame] = useContext(CurrentGame)
     const router = useRouter()
     const pathname = usePathname()
-
-    useEffect(() => {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        setCurrentGame(getGame())
-    }, [])
 
     const isLandingPage = pathname === '/';
 
