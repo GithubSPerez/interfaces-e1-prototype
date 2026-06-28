@@ -7,6 +7,7 @@ import { CurrentGame } from "./context";
 import { useEffect, useState } from "react";
 import { Game } from "./models";
 import { defaultGame, getGame, setGame } from "./storage";
+import { getOrCreateUserId } from "../lib/api";
 
 export default function RootLayout({
   children,
@@ -18,6 +19,9 @@ export default function RootLayout({
   useEffect(() => {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setCurrentGame(getGame())
+        
+        // Ensure user-id cookie is set on load
+        getOrCreateUserId()
     }, [])
 
   return (
