@@ -15,7 +15,8 @@ export default function Mods() {
   const [getIsLoadingMore, setIsLoadingMore] = useVar(false)
   const [getSearch, setSearch] = useVar<string | undefined>(undefined)
 
-  const search = useSearchParams().get("search")
+  const params = useSearchParams()
+  const search = params.get("search")
 
   function advancePage() {
     setPage(getPage() + 1)
