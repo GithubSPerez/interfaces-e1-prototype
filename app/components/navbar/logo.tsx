@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 export default function Logo() {
   const router = useRouter()
   
-    return <Link href="/" onClick={() => window.location.reload()}><Image
+    return <Link href="/"><Image
           className=""
           src="/logo.png"
           alt="Next.js logo"

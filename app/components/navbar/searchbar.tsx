@@ -6,7 +6,7 @@ export default function Searchbar({onSubmit, show, className = ""}: {onSubmit: (
     const [searchInput, setSearchInput] = useState(params.get("search") || "")
 
     if (!show) return
-    return <form onSubmit={() => {onSubmit(searchInput)}} className={className}><input
+    return <form onSubmit={(e) => {e.preventDefault(); onSubmit(searchInput)}}><input
         type="text"
         value={searchInput}
         onChange={(e) => setSearchInput(e.target.value)}

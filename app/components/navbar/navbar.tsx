@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/set-state-in-effect */
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import GameIcon from "./gameicon";
 import Logo from "./logo";
 import Searchbar from "./searchbar";
@@ -9,6 +9,7 @@ import { useRouter, usePathname } from "next/navigation";
 
 import ActionButton from "../common/actionbutton";
 import { ArchiveBoxArrowDownIcon, ArrowLeftIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { CurrentGame } from "@/app/context";
 
 function NavbarItem({children, className = ""}: {children: React.ReactNode, className?: string}) {
     return <div className={"flex flex-col justify-center p-2 " + className}>{children}</div>
@@ -16,15 +17,10 @@ function NavbarItem({children, className = ""}: {children: React.ReactNode, clas
 
 export default function Navbar() {
     const [mobileSearch, setMobileSearch] = useState(false)
-    const [currentGame, setCurrentGame] = useState<Game | undefined>()
-
-    const router = useRouter()
-    const pathname = usePathname()
 
     const submitFunc = (value: string) => {router.replace(`/mods/?search=${value}`)}
 
     useEffect(() => {
-        setCurrentGame(getGame())
         setMobileSearch(getMobileSearch())
     }, [])
 
@@ -32,6 +28,10 @@ export default function Navbar() {
         switchMobileSearch()
         setMobileSearch(getMobileSearch())
     }
+
+    const [currentGame] = useContext(CurrentGame)
+    const router = useRouter()
+    const pathname = usePathname()
 
     const isLandingPage = pathname === '/';
 

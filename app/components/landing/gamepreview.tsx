@@ -6,6 +6,8 @@ import { Game } from "../../models";
 import { Preview } from "../common/preview";
 import { useRouter } from "next/navigation";
 import { setGame } from "../../storage";
+import { useContext } from "react";
+import { CurrentGame } from "@/app/context";
 
 export function GamePreviewImage({src, reduced = false, containerClass = ""}: {src: string, reduced?: boolean, containerClass?: string}) {
     const sizeClasses = {
@@ -64,14 +66,14 @@ function GameSideviewPreviewContents({game}: {game: Game}) {
 }
 
 export default function GamePreview({game, sideview = false}: {game: Game, sideview?: boolean}) {
+    const setCurrentGame = useContext(CurrentGame)[1]
     const router = useRouter();
 
     return <div className={`p-1 shrink`}>
         <button className={`cursor-pointer bg-transparent hover:bg-container rounded-xl w-full transition-colors`}
         onClick={() => {
-            setGame(game);
+            setCurrentGame(game);
             router.push('/mods');
-            window.location.reload()
         }}>
             {sideview ? <GameSideviewPreviewContents game={game}/> : <GameNormalPreviewContents game={game}/>}
         </button>
