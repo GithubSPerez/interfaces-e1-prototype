@@ -7,6 +7,7 @@ import { getGame } from "@/app/storage";
 import { useParams, useSearchParams } from "next/navigation";
 import { useVar } from "@/lib/useVar";
 import { useActionOnScrollBottom } from "@/lib/useActionOnScrollBottom";
+import { EndOfScroll } from "../components/common/endofscroll";
 
 function Mods() {
   const [getMods, setMods, mods] = useVar<(Mod | undefined)[]>([])
@@ -65,10 +66,13 @@ function Mods() {
   
 
   return (
-    <div className="grid grid-cols-3 gap-y-8 p-3">
-      {mods.concat(noMoreMods ? [] : [undefined, undefined, undefined]).map((mod, index) => 
-        <ModPreview mod = {mod} key={`${index}-${mod?.title}`}></ModPreview>
-      )}
+    <div>
+      <div className="grid grid-cols-3 gap-y-8 p-3">
+        {mods.concat(noMoreMods ? [] : [undefined, undefined, undefined]).map((mod, index) => 
+          <ModPreview mod = {mod} key={`${index}-${mod?.title}`}></ModPreview>
+        )}
+      </div>
+      <EndOfScroll noMoreContent={noMoreMods} message="It looks like there's no more mods!"/>
     </div>
   );
 }

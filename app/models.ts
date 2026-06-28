@@ -114,6 +114,7 @@ type ModResponse = {
     _aRootCategory: ModCategoryResponse,
     _aSubmitter: ModOwnerResponse,
     _aFiles: ModFileResponse[]
+    _bIsNsfw: boolean
 }
 
 type GameModCountResponse = {
@@ -215,7 +216,7 @@ export async function requestMods(game: Game, page: number, feedFilter: FeedFilt
     const url = apiModsUrl(game.id, page, feedFilter, modsPerPage, searchName)
     const response: AxiosResponse<ModResponse[]> = await axios.get(url)
 
-    const mods = response.data.map(parseMod)
+    const mods = response.data.filter((mod) => !mod._bIsNsfw).map(parseMod)
 
     return mods
 }

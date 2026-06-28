@@ -1,11 +1,12 @@
 'use client'
 
 import { useVar } from "@/lib/useVar"
-import { Game, requestGames, requestGameSearch } from "../models"
+import { Game, requestAllGames, requestGames, requestGameSearch } from "../models"
 import GamePreview from "../components/landing/gamepreview"
 import { useSearchParams } from "next/navigation"
 import { Suspense, useEffect } from "react"
 import { useActionOnScrollBottom } from "@/lib/useActionOnScrollBottom"
+import { EndOfScroll } from "../components/common/endofscroll"
 
 function Games() {
     const [getGames, setGames, games] = useVar<(Game | undefined)[]>([])
@@ -30,7 +31,12 @@ function Games() {
         setIsLoading(true)
         let result: Game[]
         if (!getSearch()) {
-            result = await requestGames()
+            if (getPage() == 1 && getGames().length == 0) {
+                result = await requestGames()
+                setPage(getPage() - 1)
+            } else {
+                result = await requestAllGames(getPage())
+            }
         }
         else {
             result = await requestGameSearch(getSearch(), getPage())
@@ -62,10 +68,13 @@ function Games() {
         loadMoreGames()
     }, [search])
 
-    return <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-8 p-3">
-        {games.concat(noMoreGames ? [] : [undefined, undefined, undefined]).map((game, index) => 
-            <GamePreview game={game} key={`${index}-${game?.name}`}/>
-        )}
+    return <div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-8 p-3">
+            {games.concat(noMoreGames ? [] : [undefined, undefined, undefined]).map((game, index) => 
+                <GamePreview game={game} key={`${index}-${game?.name}`}/>
+            )}
+        </div>
+        <EndOfScroll noMoreContent={noMoreGames} message="It looks like there's no more games!"/>
     </div>
 }
 
