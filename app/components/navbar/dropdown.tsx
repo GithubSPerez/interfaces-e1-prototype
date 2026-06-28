@@ -27,11 +27,11 @@ export default function Dropwdown({
         className="bg-cart hover:bg-cart-hover px-4 h-10 flex items-center gap-2"
       >
         {isModsSelected ? (
-          <span className="text-font-dark text-xl font-semibold space-grotesk-bold">
+          <span className="text-font-dark text-xl font-semibold space-grotesk-bold w-28 text-center">
             Mods
           </span>
         ) : (
-          <span className="text-font-dark text-xl font-semibold space-grotesk-bold">
+          <span className="text-font-dark text-xl font-semibold space-grotesk-bold w-28 text-center">
             Collections
           </span>
         )}

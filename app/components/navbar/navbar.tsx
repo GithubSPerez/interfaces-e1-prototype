@@ -36,8 +36,8 @@ export default function Navbar() {
 
     const isLandingPage = pathname === '/';
 
-    return <div className="flex flex-row justify-items-center fixed w-full h-15 z-50 bg-bglite">
-        <div className="flex flex-row flex-1 justify-start gap-3">
+    return <div className="flex flex-row justify-items-center fixed w-full h-15 z-50 bg-bglite shrink-0">
+        <div className="flex flex-row flex-1 justify-start items-center">
             <NavbarItem>
                 <Logo></Logo>
             </NavbarItem>
@@ -45,10 +45,11 @@ export default function Navbar() {
                 <GameIcon game={currentGame}></GameIcon>
             </NavbarItem>
             <NavbarItem>
-                    <Dropwdown dropdownSelected={dropdownSelected} isDropdownOpen={isDropdownOpen}
-                    setIsDropdownOpen={setIsDropdownOpen} isModsSelected={isModsSelected} setIsModsSelected={setIsModsSelected}></Dropwdown>
-            </NavbarItem>
+                        <Dropwdown dropdownSelected={dropdownSelected} isDropdownOpen={isDropdownOpen}
+                        setIsDropdownOpen={setIsDropdownOpen} isModsSelected={isModsSelected} setIsModsSelected={setIsModsSelected}></Dropwdown>
+                </NavbarItem>
         </div>
+
 
         <div className="flex flex-row flex-1 justify-center">
             <NavbarItem>
