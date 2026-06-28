@@ -1,66 +1,76 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 'use client'
 
 import ModPreview from "@/app/components/common/modpreview";
-import { useEffect, useState } from "react";
-import { FeedFilter,  Mod, requestMods } from "@/app/models";
+import { useEffect, useRef, useState } from "react";
+import { FeedFilter,  Mod, modsPerPage, requestMods } from "@/app/models";
 import { getGame } from "@/app/storage";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
+import { useVar } from "@/lib/useVar";
 
 export default function Mods() {
-  const [mods, setMods] = useState<(Mod | undefined)[]>([])
-  const [page, setPage] = useState<number>(1)
-  const [isLoadingMore, setIsLoadingMore] = useState(false)
-  const [noMoreMods, setNoMoreMods] = useState(false)
+  const [getMods, setMods, mods] = useVar<(Mod | undefined)[]>([])
+  const [getPage, setPage] = useVar(1)
+  const [getNoMoreMods, setNoMoreMods, noMoreMods] = useVar(false)
+  const [getIsLoadingMore, setIsLoadingMore] = useVar(false)
+  const [getSearch, setSearch] = useVar<string | undefined>(undefined)
+
+  const search = useSearchParams().get("search")
 
   function advancePage() {
-    setPage(page + 1)
+    setPage(getPage() + 1)
   }
 
   function appendMods(newMods: Mod[]) {
-    setMods(mods.concat(newMods))
+    setMods(getMods().concat(newMods))
   }
 
-  function loadMoreMods() {
-    const params = new URLSearchParams(window.location.search)
-    const search = params.get("search") || undefined
+  async function loadMoreMods() {
+    if (getIsLoadingMore()) return
     setIsLoadingMore(true)
-    requestMods(getGame(), page, FeedFilter.Featured, search).then((result) => {
-      appendMods(result)
-      if (result.length == 0) {
-        setNoMoreMods(true)
-      }
-      advancePage()
-      setIsLoadingMore(false)
-    })
+    console.log(getSearch())
+
+    const result = await requestMods(getGame(), getPage(), FeedFilter.Featured, getSearch())
+
+    appendMods(result)
+    if (result.length == 0) {
+      setNoMoreMods(true)
+    }
+    advancePage()
+    setIsLoadingMore(false)
   }
 
-  const handleScroll = (isLoading: boolean) => {
-    if (isLoading || noMoreMods) return
+  const handleScroll = () => {
+    if (getIsLoadingMore() || getNoMoreMods()) return
 
     const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - window.outerHeight
 
     if (bottom) {
-      console.log("HANDLE", isLoading)
       loadMoreMods()
     }
   }
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSearch(search || undefined)
+    setPage(1)
+    setMods([])
     loadMoreMods()
-  }, [])
+    
+  }, [search])
 
   useEffect(() => {
-    console.log(isLoadingMore)
-    const ev = () => handleScroll(isLoadingMore)
+    const ev = () => handleScroll()
+    console.log("added listener", ev)
     window.addEventListener('scroll', ev, {
       passive: true
     })
 
     return () => {
+      console.log("removed listener", ev)
       window.removeEventListener('scroll', ev);
     }
-  }, [isLoadingMore])
+    
+  }, [])
 
   return (
     <div className="grid grid-cols-3 gap-y-8 p-3">
