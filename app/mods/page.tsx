@@ -1,14 +1,13 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 'use client'
 
 import ModPreview from "@/app/components/common/modpreview";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { FeedFilter,  Mod, modsPerPage, requestMods } from "@/app/models";
 import { getGame } from "@/app/storage";
 import { useParams, useSearchParams } from "next/navigation";
 import { useVar } from "@/lib/useVar";
 
-export default function Mods() {
+function Mods() {
   const [getMods, setMods, mods] = useVar<(Mod | undefined)[]>([])
   const [getPage, setPage] = useVar(1)
   const [getNoMoreMods, setNoMoreMods, noMoreMods] = useVar(false)
@@ -80,4 +79,10 @@ export default function Mods() {
       )}
     </div>
   );
+}
+
+export default function ModsPage() {
+  return <Suspense>
+    <Mods/>
+  </Suspense>
 }
