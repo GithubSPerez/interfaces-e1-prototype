@@ -73,6 +73,14 @@ function apiGamesUrl() {
     return "https://gamebanana.com/apiv12/Util/Homepage/TopGames"
 }
 
+function apiGameSearchUrl(search: string, page: number) {
+    return `https://gamebanana.com/apiv12/Util/Search/Results?_sModelName=Game&_sOrder=best_match&_sSearchString=*${search}*&_nPage=${page}&_nPerPage=12`
+}
+
+function apiAllGamesUrl(page: number) {
+    return `https://gamebanana.com/apiv12/Game/Index?_nPage=${page}&_nPerpage=12`
+}
+
 type ModOwnerResponse = {
     _sName: string,
     _sAvatarUrl: string,
@@ -118,6 +126,24 @@ type GameResponse = {
     _sIconUrl: string,
     _sBannerUrl: string,
     _aModCounts: GameModCountResponse
+}
+
+type PreviewImageResponse = {
+    _sType: string,
+    _sUrl: string
+}
+
+type PreviewMediaResponse = {
+    _aImages: PreviewImageResponse[]
+}
+
+type GameSearchRecordResponse = {
+    _idRow: number,
+    _sName: string,
+    _aPreviewMedia: PreviewMediaResponse,
+}
+type GameSearchResponse = {
+    _aRecords: GameSearchRecordResponse[]
 }
 
 export const previewPlaceholder = "https://pngmagic.com/webp_images/youtube-thumbnail-size-with-aspect-ratio-169_KVG.webp"
@@ -166,6 +192,23 @@ function parseGame(gameRes: GameResponse) {
     return result
 }
 
+function parseGameRecord(gameSearchRes: GameSearchRecordResponse) {
+    const images = gameSearchRes._aPreviewMedia._aImages
+    const iconUrl = images.find((img) => img._sType == "icon")!._sUrl
+    const bannerUrl = images.find((img) => img._sType == "banner")!._sUrl
+
+    const modCountMax = 10000
+    const result: Game = {
+        id: gameSearchRes._idRow,
+        name: gameSearchRes._sName,
+        icon: iconUrl,
+        preview: bannerUrl,
+        modCount: Math.floor(Math.random() * modCountMax)
+    }
+
+    return result
+}
+
 export const modsPerPage = 12
 
 export async function requestMods(game: Game, page: number, feedFilter: FeedFilter, searchName?: string) {
@@ -189,5 +232,21 @@ export async function requestGames() {
     const response: AxiosResponse<{Trending: GameResponse[]}> = await axios.get(url)
 
     const games = response.data.Trending.map(parseGame)
+    return games
+}
+
+export async function requestGameSearch(search: string, page: number) {
+    const url = apiGameSearchUrl(search, page)
+    const response = await axios.get<GameSearchResponse>(url)
+
+    const games = response.data._aRecords.map(parseGameRecord)
+    return games
+}
+
+export async function requestAllGames(page: number) {
+    const url = apiAllGamesUrl(page)
+    const response = await axios.get<GameSearchResponse>(url)
+
+    const games = response.data._aRecords.map(parseGameRecord)
     return games
 }

@@ -153,7 +153,7 @@ export default function ModPage() {
         
         
         <div className="flex-2">
-            <ModSideSuggestions/>
+            <ModSideSuggestions currentMod={mod}/>
         </div>
         {showAddedNonModal && (
             <div className="fixed bottom-6 right-6 bg-bglite text-font px-5 py-3 rounded-border-inner flex items-center gap-3 animate-fade-in">

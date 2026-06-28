@@ -6,6 +6,7 @@ import { FeedFilter,  Mod, modsPerPage, requestMods } from "@/app/models";
 import { getGame } from "@/app/storage";
 import { useParams, useSearchParams } from "next/navigation";
 import { useVar } from "@/lib/useVar";
+import { useActionOnScrollBottom } from "@/lib/useActionOnScrollBottom";
 
 function Mods() {
   const [getMods, setMods, mods] = useVar<(Mod | undefined)[]>([])
@@ -13,6 +14,7 @@ function Mods() {
   const [getNoMoreMods, setNoMoreMods, noMoreMods] = useVar(false)
   const [getIsLoadingMore, setIsLoadingMore] = useVar(false)
   const [getSearch, setSearch] = useVar<string | undefined>(undefined)
+  const [getFilter, setFilter] = useVar(FeedFilter.Featured)
 
   const params = useSearchParams()
   const search = params.get("search")
@@ -30,7 +32,11 @@ function Mods() {
     setIsLoadingMore(true)
     console.log(getSearch())
 
-    const result = await requestMods(getGame(), getPage(), FeedFilter.Featured, getSearch())
+    let result = await requestMods(getGame(), getPage(), getFilter(), getSearch())
+    if (getMods().length == 0 && result.length == 0) {
+      setFilter(FeedFilter.Popular)
+      result = await requestMods(getGame(), getPage(), FeedFilter.Popular, getSearch())
+    }
 
     appendMods(result)
     if (result.length == 0) {
@@ -40,37 +46,23 @@ function Mods() {
     setIsLoadingMore(false)
   }
 
-  const handleScroll = () => {
+  const onScrollBottom = () => {
     if (getIsLoadingMore() || getNoMoreMods()) return
-
-    const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - window.outerHeight
-
-    if (bottom) {
-      loadMoreMods()
-    }
+    loadMoreMods()
   }
+
+  useActionOnScrollBottom(onScrollBottom)
 
   useEffect(() => {
     setSearch(search || undefined)
+    setNoMoreMods(false)
     setPage(1)
     setMods([])
     loadMoreMods()
     
   }, [search])
 
-  useEffect(() => {
-    const ev = () => handleScroll()
-    console.log("added listener", ev)
-    window.addEventListener('scroll', ev, {
-      passive: true
-    })
-
-    return () => {
-      console.log("removed listener", ev)
-      window.removeEventListener('scroll', ev);
-    }
-    
-  }, [])
+  
 
   return (
     <div className="grid grid-cols-3 gap-y-8 p-3">

@@ -32,7 +32,7 @@ export default function Navbar() {
         </div>
         <div className="flex flex-row flex-1 justify-center">
             <NavbarItem>
-                {!isLandingPage && <Searchbar onSubmit={(value) => {router.replace(`/mods/?search=${value}`)}}/>}
+                {!isLandingPage && <Searchbar onSubmit={(value) => {router.replace(`${pathname}?search=${value}`)}}/>}
             </NavbarItem>
         </div>
         <div className="flex flex-row flex-1 justify-end pr-10">

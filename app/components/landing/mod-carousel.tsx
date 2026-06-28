@@ -13,7 +13,7 @@ export default function ModCarousel() {
   const { loadingMods } = APP_TEXTS.landing;
 
   useEffect(() => {
-    requestMods(getGame(), 1, FeedFilter.Featured).then((result) => {
+    requestMods(getGame(), 1, FeedFilter.Popular).then((result) => {
       setMods(result);
     });
   }, []);
