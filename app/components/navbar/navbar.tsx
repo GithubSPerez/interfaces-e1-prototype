@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import GameIcon from "./gameicon";
 import Logo from "./logo";
 import Searchbar from "./searchbar";
-import { getGame, setGame } from "../../storage";
+import { defaultGame, getGame, setGame } from "../../storage";
 import { Game, requestGames } from "../../models";
 import { useRouter, usePathname } from "next/navigation";
 
@@ -27,7 +27,8 @@ export default function Navbar() {
                 <Logo></Logo>
             </NavbarItem>
             <NavbarItem>
-                <GameIcon game={currentGame}></GameIcon>
+                {currentGame != defaultGame && <GameIcon game={currentGame}/>}
+                
             </NavbarItem>
         </div>
         <div className="flex flex-row flex-1 justify-center">
