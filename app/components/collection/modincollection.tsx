@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 type Params = {
     mod: Mod,
     modSpace: number,
-    handleDeleteSavedMod: (mod: Mod) => void;
+    handleDeleteSavedMod?: (mod: Mod) => void;
 }
 
 export default function ModInCollection({mod, modSpace, handleDeleteSavedMod} : Params) {
@@ -28,7 +28,12 @@ export default function ModInCollection({mod, modSpace, handleDeleteSavedMod} : 
                 </div>
               </div>
 
-              <TrashIcon className="w-8 h-8 text-neutral hover:text-neutral-hovered cursor-pointer" onClick={() => handleDeleteSavedMod(mod)}/>
+              { handleDeleteSavedMod ? (
+                <TrashIcon className="w-8 h-8 text-neutral hover:text-neutral-hovered cursor-pointer" onClick={() => handleDeleteSavedMod(mod)}/>
 
+              ) : (
+                <></>
+              )}
+              
     </div>
 }

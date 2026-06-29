@@ -36,6 +36,14 @@ export type Comment = {
     content: string
 }
 
+export type Collection = {
+    nombre: string,
+    descripcion: string,
+    id: string,
+    mods: Mod[],
+    userId: number
+}
+
 export enum FeedFilter {
     Recent,
     Featured,

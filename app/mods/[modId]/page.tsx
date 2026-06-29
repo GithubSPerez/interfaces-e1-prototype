@@ -88,7 +88,7 @@ export default function ModPage() {
                     responseType: "blob",
                 }
             );
-
+            
             const blobFile = fileResponse.data;
 
             const url = window.URL.createObjectURL(blobFile);
@@ -192,7 +192,7 @@ export default function ModPage() {
             <ModSideSuggestions currentMod={mod}/>
         </div>
         {showAddedNonModal && (
-            <div className="fixed bottom-6 right-6 bg-bglite text-font px-5 py-3 rounded-border-inner flex items-center gap-3 animate-fade-in">
+            <div className="fixed top-20 left-1/2 -translate-x-1/2 bg-bglitest text-font px-5 py-3 rounded-border-inner flex items-center gap-3 animate-fade-in">
                 <PlusCircleIcon className="size-6 stroke-icons text-cart" />
                 <span className="font-medium">Added to collection</span>
             </div>
