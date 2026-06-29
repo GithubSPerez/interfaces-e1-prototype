@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import ModPreview from "../common/modpreview";
 import { FeedFilter, Mod, requestMods } from "../../models";
 import { getGame } from "../../storage";
+import { EndOfScroll } from "../common/endofscroll";
 
 export default function ModSideSuggestions({currentMod}: {currentMod: Mod | undefined}) {
     const [mods, setMods] = useState<(Mod | undefined)[]>(Array(20).fill(undefined))
+    const [loaded, setLoaded] = useState(false)
 
     useEffect(() => {
         console.log(currentMod)
@@ -17,6 +19,7 @@ export default function ModSideSuggestions({currentMod}: {currentMod: Mod | unde
                 const index = result.findIndex((mod) => mod.title == currentMod.title)
                 if (index != -1) result.splice(index, 1)
                 setMods(result)
+                setLoaded(true)
             })
         }
             
@@ -24,6 +27,6 @@ export default function ModSideSuggestions({currentMod}: {currentMod: Mod | unde
 
     return <div className="flex flex-col w-full">
         {mods.map((mod, i) => <ModPreview sideview mod={mod} key={mod?.title || `mod-${i}`}/>)}
-        
+        <EndOfScroll noMoreContent={loaded} message="No more suggestions to show"/>
     </div>
 }

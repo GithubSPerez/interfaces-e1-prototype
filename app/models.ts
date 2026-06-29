@@ -30,6 +30,12 @@ export type Game = {
     modCount: number,
 }
 
+export type Comment = {
+    id: number,
+    poster: User,
+    content: string
+}
+
 export enum FeedFilter {
     Recent,
     Featured,
@@ -79,6 +85,10 @@ function apiGameSearchUrl(search: string, page: number) {
 
 function apiAllGamesUrl(page: number) {
     return `https://gamebanana.com/apiv12/Game/Index?_nPage=${page}&_nPerpage=12`
+}
+
+function apiCommentsUrl(modId: number, page: number) {
+    return `https://gamebanana.com/apiv12/Mod/${modId}/Posts?_nPage=${page}&_nPerpage=15&_sSort=popular`
 }
 
 type ModOwnerResponse = {
@@ -143,12 +153,29 @@ type GameSearchRecordResponse = {
     _sName: string,
     _aPreviewMedia: PreviewMediaResponse,
 }
+
 type GameSearchResponse = {
     _aRecords: GameSearchRecordResponse[]
 }
 
+type CommentResponse = {
+    _idRow: number,
+    _aPoster: ModOwnerResponse,
+    _sText: string
+}
+
 export const previewPlaceholder = "https://pngmagic.com/webp_images/youtube-thumbnail-size-with-aspect-ratio-169_KVG.webp"
 export const iconPlaceholder = "https://cdn-icons-png.flaticon.com/512/8293/8293566.png"
+
+function parseSubmitter(submitterRes: ModOwnerResponse) {
+    const result: User = {
+        id: submitterRes._idRow,
+        name: submitterRes._sName,
+        pfp: submitterRes._sAvatarUrl
+    }
+
+    return result
+}
 
 function parseMod(modRes: ModResponse) {
     let preview = previewPlaceholder
@@ -171,11 +198,7 @@ function parseMod(modRes: ModResponse) {
         fileSize: file._nFilesize,
         file: file._sDownloadUrl,
         tags: [modRes._aCategory._sName, modRes._aRootCategory._sName],
-        user: {
-            id: modRes._aSubmitter._idRow,
-            name: modRes._aSubmitter._sName,
-            pfp: modRes._aSubmitter._sAvatarUrl
-        }
+        user: parseSubmitter(modRes._aSubmitter)
     }
 
     return result
@@ -207,6 +230,15 @@ function parseGameRecord(gameSearchRes: GameSearchRecordResponse) {
         modCount: Math.floor(Math.random() * modCountMax)
     }
 
+    return result
+}
+
+function parseComment(commentRes: CommentResponse) {
+    const result: Comment = {
+        id: commentRes._idRow,
+        poster: parseSubmitter(commentRes._aPoster),
+        content: commentRes._sText
+    }
     return result
 }
 
@@ -250,4 +282,12 @@ export async function requestAllGames(page: number) {
 
     const games = response.data._aRecords.map(parseGameRecord)
     return games
+}
+
+export async function requestComments(modId: number, page: number) {
+    const url = apiCommentsUrl(modId, page)
+    const response = await axios.get<{_aRecords: CommentResponse[]}>(url)
+
+    const comments = response.data._aRecords.filter((comment) => comment._aPoster).map(parseComment)
+    return comments
 }

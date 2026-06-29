@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 'use client'
 import LikeBar from "@/app/components/mod/likebar";
 import ModSideSuggestions from "@/app/components/mod/modsidesuggestions";
@@ -6,20 +7,28 @@ import SquareImage from "@/app/components/common/squareimage";
 //import { ArrowDownTrayIcon, ClockIcon, DocumentTextIcon, HeartIcon, InformationCircleIcon, PlusCircleIcon } from "@heroicons/react/16/solid";
 //import { ArrowDownCircleIcon } from "@heroicons/react/16/solid";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { ModThumbnail } from "@/app/components/common/modpreview";
 import { ArrowDownCircleIcon, ArrowDownTrayIcon, ClockIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import ActionButton from "@/app/components/common/actionbutton";
 import axios from "axios";
+import ModCommentsPanel from "@/app/components/mod/modcommentspanel";
+import { useVar } from "@/lib/useVar";
+import Text from "@/app/components/common/text";
 
 export default function ModPage() {
     const params = useParams<{modId: string}>()
-    const [mod, setMod] = useState<Mod | undefined>(undefined)
+    const [getMod, setMod, mod] = useVar<Mod | undefined>(undefined)
     const [showAddedNonModal, setShowAddedNonModal] = useState<boolean>(false);
     const [alreadySavedMod, setAlreadySavedMod] = useState<boolean>(false);
     const [isDownloading, setIsDownloading] = useState(false);
+    const [hideShowMore, setHideShowMore] = useState(false)
+
+    const descDiv = useRef<HTMLDivElement>(null)
+
+    const [showDesc, setShowDesc] = useState(false)
 
     const getSavedMods = (): Mod[] => {
         const localStorageMods = localStorage.getItem("savedMods");
@@ -33,6 +42,18 @@ export default function ModPage() {
             setAlreadySavedMod(alreadyAdded);
         })
     }, [params.modId])
+
+    useEffect(() => {
+        if (mod) {
+            if (descDiv.current) {
+                if (descDiv.current.offsetHeight < 240) {
+                    console.log(descDiv.current.offsetHeight)
+                    setHideShowMore(true)
+                    setShowDesc(true)
+                }
+            }
+        }
+    }, [mod])
 
     const handleAddToCollection = () => {
         if (!mod) return;
@@ -86,7 +107,7 @@ export default function ModPage() {
     };
 
     return <div className="flex flex-row">
-            <div className="flex flex-5 flex-col p-5">
+        <div className="flex flex-5 flex-col p-5">
             <div className="flex flex-row">
                 <ModThumbnail src={mod?.preview} containerClass="flex-5"/>
                 <div className="flex flex-col w-full bg-bglite ml-6 rounded-xl p-4 min-h-0 flex-2">
@@ -145,10 +166,25 @@ export default function ModPage() {
                     
                 </div> 
             </div>
-            <h1 className="text-4xl font-bold pt-3">{mod?.title}</h1>
-            <div className="text-xl text-neutral-300">
-                <Markdown rehypePlugins={[rehypeRaw]}>{mod?.description}</Markdown>
+            <h1 className="text-4xl font-bold pt-3 pb-8">{mod?.title}</h1>
+            <div className="flex flex-col text-xl text-neutral-300 bg-bglite rounded-border-outer p-4 gap-y-3">
+                <div className={showDesc ? "" : "fade-overlay-relative"}>
+                    <div ref={descDiv} className={showDesc ? "" : "overflow-hidden max-h-60"}>
+                        <Markdown rehypePlugins={[rehypeRaw]}>{mod?.description}</Markdown>
+                    </div>
+                </div>
+                {!hideShowMore && <button
+                        onClick={() => {setShowDesc(!showDesc)}}
+                    >
+                        <Text variant="p" className="text-xl text-link-hover hover:text-neutral-hover relative z-20">
+                            {showDesc ? "show less" : "show more"}
+                        </Text>
+                </button>
+                }
+                
             </div>
+
+            <ModCommentsPanel mod={mod} getMod={getMod}/>
         </div>
         
         

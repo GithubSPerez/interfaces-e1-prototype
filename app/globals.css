@@ -113,6 +113,12 @@ body {
     mask-image: linear-gradient(to bottom, transparent 0%, black 40%, black 100%);
   }
 
+  .fade-overlay-relative {
+    @apply bg-gradient-to-t from-bglite from-10% to-transparent backdrop-blur-[10px];
+    -webkit-mask-image: linear-gradient(to top, transparent 0%, black 40%, black 100%);
+    mask-image: linear-gradient(to top, transparent 0%, black 40%, black 100%);
+  }
+
   .text-link-hover {
     @apply text-font-disabled hover:text-white font-bold transition-colors cursor-pointer;
   }
