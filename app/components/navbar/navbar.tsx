@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState, useRef } from "react";
 import GameIcon from "./gameicon";
 import Logo from "./logo";
 import Searchbar from "./searchbar";
-import { getGame, setGame } from "../../storage";
+import { defaultGame, getGame, setGame } from "../../storage";
 import { Game, requestGames } from "../../models";
 import { useRouter, usePathname } from "next/navigation";
 
@@ -42,7 +42,8 @@ export default function Navbar() {
                 <Logo></Logo>
             </NavbarItem>
             <NavbarItem>
-                <GameIcon game={currentGame}></GameIcon>
+                {currentGame != defaultGame && <GameIcon game={currentGame}/>}
+                
             </NavbarItem>
             <NavbarItem>
                         <Dropwdown dropdownSelected={dropdownSelected} isDropdownOpen={isDropdownOpen}
@@ -53,7 +54,7 @@ export default function Navbar() {
 
         <div className="flex flex-row flex-1 justify-center">
             <NavbarItem>
-                {!isLandingPage && <Searchbar onSubmit={(value) => {router.replace(`/mods/?search=${value}`)}}/>}
+                {!isLandingPage && <Searchbar onSubmit={(value) => {router.replace(`${pathname}?search=${value}`)}}/>}
             </NavbarItem>
         </div>
 

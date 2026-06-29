@@ -30,6 +30,12 @@ export type Game = {
     modCount: number,
 }
 
+export type Comment = {
+    id: number,
+    poster: User,
+    content: string
+}
+
 export type Collection = {
     nombre: string,
     descripcion: string,
@@ -81,6 +87,18 @@ function apiGamesUrl() {
     return "https://gamebanana.com/apiv12/Util/Homepage/TopGames"
 }
 
+function apiGameSearchUrl(search: string, page: number) {
+    return `https://gamebanana.com/apiv12/Util/Search/Results?_sModelName=Game&_sOrder=best_match&_sSearchString=*${search}*&_nPage=${page}&_nPerPage=12`
+}
+
+function apiAllGamesUrl(page: number) {
+    return `https://gamebanana.com/apiv12/Game/Index?_nPage=${page}&_nPerpage=12`
+}
+
+function apiCommentsUrl(modId: number, page: number) {
+    return `https://gamebanana.com/apiv12/Mod/${modId}/Posts?_nPage=${page}&_nPerpage=15&_sSort=popular`
+}
+
 type ModOwnerResponse = {
     _sName: string,
     _sAvatarUrl: string,
@@ -114,6 +132,7 @@ type ModResponse = {
     _aRootCategory: ModCategoryResponse,
     _aSubmitter: ModOwnerResponse,
     _aFiles: ModFileResponse[]
+    _bIsNsfw: boolean
 }
 
 type GameModCountResponse = {
@@ -128,8 +147,43 @@ type GameResponse = {
     _aModCounts: GameModCountResponse
 }
 
+type PreviewImageResponse = {
+    _sType: string,
+    _sUrl: string
+}
+
+type PreviewMediaResponse = {
+    _aImages: PreviewImageResponse[]
+}
+
+type GameSearchRecordResponse = {
+    _idRow: number,
+    _sName: string,
+    _aPreviewMedia: PreviewMediaResponse,
+}
+
+type GameSearchResponse = {
+    _aRecords: GameSearchRecordResponse[]
+}
+
+type CommentResponse = {
+    _idRow: number,
+    _aPoster: ModOwnerResponse,
+    _sText: string
+}
+
 export const previewPlaceholder = "https://pngmagic.com/webp_images/youtube-thumbnail-size-with-aspect-ratio-169_KVG.webp"
 export const iconPlaceholder = "https://cdn-icons-png.flaticon.com/512/8293/8293566.png"
+
+function parseSubmitter(submitterRes: ModOwnerResponse) {
+    const result: User = {
+        id: submitterRes._idRow,
+        name: submitterRes._sName,
+        pfp: submitterRes._sAvatarUrl
+    }
+
+    return result
+}
 
 function parseMod(modRes: ModResponse) {
     let preview = previewPlaceholder
@@ -152,11 +206,7 @@ function parseMod(modRes: ModResponse) {
         fileSize: file._nFilesize,
         file: file._sDownloadUrl,
         tags: [modRes._aCategory._sName, modRes._aRootCategory._sName],
-        user: {
-            id: modRes._aSubmitter._idRow,
-            name: modRes._aSubmitter._sName,
-            pfp: modRes._aSubmitter._sAvatarUrl
-        }
+        user: parseSubmitter(modRes._aSubmitter)
     }
 
     return result
@@ -174,13 +224,41 @@ function parseGame(gameRes: GameResponse) {
     return result
 }
 
+function parseGameRecord(gameSearchRes: GameSearchRecordResponse) {
+    const images = gameSearchRes._aPreviewMedia._aImages
+    const iconUrl = images.find((img) => img._sType == "icon")!._sUrl
+    const bannerUrl = images.find((img) => img._sType == "banner")!._sUrl
+
+    const modCountMax = 10000
+    const result: Game = {
+        id: gameSearchRes._idRow,
+        name: gameSearchRes._sName,
+        icon: iconUrl,
+        preview: bannerUrl,
+        modCount: Math.floor(Math.random() * modCountMax)
+    }
+
+    return result
+}
+
+function parseComment(commentRes: CommentResponse) {
+    const result: Comment = {
+        id: commentRes._idRow,
+        poster: parseSubmitter(commentRes._aPoster),
+        content: commentRes._sText
+    }
+    return result
+}
+
 export const modsPerPage = 12
 
 export async function requestMods(game: Game, page: number, feedFilter: FeedFilter, searchName?: string) {
     const url = apiModsUrl(game.id, page, feedFilter, modsPerPage, searchName)
     const response: AxiosResponse<ModResponse[]> = await axios.get(url)
 
-    const mods = response.data.map(parseMod)
+    if (!response.data) return []
+    
+    const mods = response.data.filter((mod) => !mod._bIsNsfw).map(parseMod)
 
     return mods
 }
@@ -198,4 +276,28 @@ export async function requestGames() {
 
     const games = response.data.Trending.map(parseGame)
     return games
+}
+
+export async function requestGameSearch(search: string, page: number) {
+    const url = apiGameSearchUrl(search, page)
+    const response = await axios.get<GameSearchResponse>(url)
+
+    const games = response.data._aRecords.map(parseGameRecord)
+    return games
+}
+
+export async function requestAllGames(page: number) {
+    const url = apiAllGamesUrl(page)
+    const response = await axios.get<GameSearchResponse>(url)
+
+    const games = response.data._aRecords.map(parseGameRecord)
+    return games
+}
+
+export async function requestComments(modId: number, page: number) {
+    const url = apiCommentsUrl(modId, page)
+    const response = await axios.get<{_aRecords: CommentResponse[]}>(url)
+
+    const comments = response.data._aRecords.filter((comment) => comment._aPoster).map(parseComment)
+    return comments
 }

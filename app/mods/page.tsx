@@ -6,77 +6,44 @@ import { FeedFilter,  Mod, modsPerPage, requestMods } from "@/app/models";
 import { getGame } from "@/app/storage";
 import { useParams, useSearchParams } from "next/navigation";
 import { useVar } from "@/lib/useVar";
+import { useActionOnScrollBottom } from "@/lib/useActionOnScrollBottom";
+import { EndOfScroll } from "../components/common/endofscroll";
+import { useLimitlessContent } from "@/lib/useLimitlessContent";
+import { useSearchbarResults } from "@/lib/useSearchbarResult";
 
 function Mods() {
-  const [getMods, setMods, mods] = useVar<(Mod | undefined)[]>([])
-  const [getPage, setPage] = useVar(1)
-  const [getNoMoreMods, setNoMoreMods, noMoreMods] = useVar(false)
-  const [getIsLoadingMore, setIsLoadingMore] = useVar(false)
-  const [getSearch, setSearch] = useVar<string | undefined>(undefined)
+  const [getFilter, setFilter] = useVar(FeedFilter.Featured)
 
-  const params = useSearchParams()
-  const search = params.get("search")
+  const [mods, loadMoreMods, {getItems, reset, noMoreItems}] = useLimitlessContent(requestItems)
 
-  function advancePage() {
-    setPage(getPage() + 1)
-  }
-
-  function appendMods(newMods: Mod[]) {
-    setMods(getMods().concat(newMods))
-  }
-
-  async function loadMoreMods() {
-    if (getIsLoadingMore()) return
-    setIsLoadingMore(true)
-    console.log(getSearch())
-
-    const result = await requestMods(getGame(), getPage(), FeedFilter.Featured, getSearch())
-
-    appendMods(result)
-    if (result.length == 0) {
-      setNoMoreMods(true)
-    }
-    advancePage()
-    setIsLoadingMore(false)
-  }
-
-  const handleScroll = () => {
-    if (getIsLoadingMore() || getNoMoreMods()) return
-
-    const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - window.outerHeight
-
-    if (bottom) {
-      loadMoreMods()
-    }
-  }
-
-  useEffect(() => {
-    setSearch(search || undefined)
-    setPage(1)
-    setMods([])
+  const [getSearch] = useSearchbarResults(() => {
+    reset()
     loadMoreMods()
-    
-  }, [search])
+  })
 
-  useEffect(() => {
-    const ev = () => handleScroll()
-    console.log("added listener", ev)
-    window.addEventListener('scroll', ev, {
-      passive: true
-    })
-
-    return () => {
-      console.log("removed listener", ev)
-      window.removeEventListener('scroll', ev);
+  async function requestItems(page: number) {
+    let result = await requestMods(getGame(), page, getFilter(), getSearch())
+    if (getItems().length == 0 && result.length == 0) {
+      setFilter(FeedFilter.Popular)
+      result = await requestMods(getGame(), page, FeedFilter.Popular, getSearch())
     }
-    
-  }, [])
+    return result
+  }
+
+  const onScrollBottom = () => {
+    loadMoreMods()
+  }
+
+  useActionOnScrollBottom(onScrollBottom)
 
   return (
-    <div className="grid grid-cols-3 gap-y-8 p-3">
-      {mods.concat(noMoreMods ? [] : [undefined, undefined, undefined]).map((mod, index) => 
-        <ModPreview mod = {mod} key={`${index}-${mod?.title}`}></ModPreview>
-      )}
+    <div>
+      <div className="grid grid-cols-3 gap-y-8 p-3">
+        {mods.map((mod, index) => 
+          <ModPreview mod = {mod} key={`${index}-${mod?.title}`}></ModPreview>
+        )}
+      </div>
+      <EndOfScroll noMoreContent={noMoreItems} message="It looks like there's no more mods!"/>
     </div>
   );
 }

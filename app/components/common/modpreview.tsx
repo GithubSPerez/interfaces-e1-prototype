@@ -5,6 +5,7 @@ import SquareImage from "./squareimage";
 import { useRouter } from "next/navigation";
 import { Mod } from "../../models";
 import { Preview } from "./preview";
+import { SkeletonText } from "./skeletontext";
 
 export function ModThumbnail({src, reduced = false, containerClass = ""}: {src: string | undefined, reduced?: boolean, containerClass?: string}) {
     return Preview({src, reduced, containerClass})
@@ -40,7 +41,7 @@ function ModNormalPreviewContents({mod}: {mod: Mod | undefined}) {
             <div className="pr-3">
                 <SquareImage size="plus" src={mod?.user.pfp}></SquareImage>
             </div>
-            {mod && <ModInfo mod={mod}/>}
+            {mod ? <ModInfo mod={mod}/> : <SkeletonText wClass="w-full !h-11"/>}
         </div>
     </div>
     </div>
@@ -54,7 +55,7 @@ function ModSideviewPreviewContents({mod}: {mod: Mod | undefined}) {
         
         <div className="p-3 pl-1.5">
             <div className="flex flex-row w-full">
-                {mod && <ModInfo mod={mod} reduced/>}
+                {mod ? <ModInfo mod={mod} reduced/> : <SkeletonText wClass="w-1/2"/>}
             </div>
         </div>
     </div>

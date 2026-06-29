@@ -6,6 +6,7 @@ import FunctionalityOverview from "./components/landing/functionality-overview";
 import ModCarousel from "./components/landing/mod-carousel";
 import GameGrid from "./components/landing/game-grid";
 import Text from "./components/common/text";
+import BrowseButtons from "./components/landing/browse-buttons";
 
 export default function Landing() {
   const { landing } = APP_TEXTS;
@@ -25,7 +26,11 @@ export default function Landing() {
 
       <FunctionalityOverview />
 
-      <div className="relative z-10 mt-16 w-full max-w-5xl mx-auto flex flex-col items-center">
+      <div className="flex py-16 w-full justify-center align-middle">
+        <BrowseButtons/>
+      </div>
+
+      <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center">
         <Text variant="h2" className="text-center mb-10">
           {landing.trendingGamesTitle}
         </Text>
