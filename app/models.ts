@@ -248,6 +248,8 @@ export async function requestMods(game: Game, page: number, feedFilter: FeedFilt
     const url = apiModsUrl(game.id, page, feedFilter, modsPerPage, searchName)
     const response: AxiosResponse<ModResponse[]> = await axios.get(url)
 
+    if (!response.data) return []
+    
     const mods = response.data.filter((mod) => !mod._bIsNsfw).map(parseMod)
 
     return mods

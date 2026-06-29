@@ -6,7 +6,7 @@ export default function SquareImage({src, size} : {src: string | undefined, size
         big: "h-15 w-15"
     }
 
-    return <div className={`${sizeClass[size]} overflow-hidden rounded-border-inner bg-bglite pointer-events-none`}>
+    return <div className={`${sizeClass[size]} overflow-hidden rounded-border-inner ${!src ? "skeleton-loading" : "bg-bglite"} pointer-events-none`}>
         {src && <img src={src} alt="image" className="object-scale-up h-full m-auto"/>}
     </div>
 }

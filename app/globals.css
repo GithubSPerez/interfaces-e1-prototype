@@ -138,3 +138,16 @@ body {
     transform: translateY(-20px) rotate(-10deg);
   }
 }
+
+@keyframes skeleton {
+    from {
+        background-color: var(--color-bglite);
+    }
+    to {
+        background-color: var(--color-bglite-hover);
+    }
+}
+
+.skeleton-loading {
+  animation: skeleton 0.5s infinite alternate;
+}
